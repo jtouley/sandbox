@@ -16,6 +16,7 @@ help: ## Show this help
 
 # ---- Environment ----
 init: ## Create venv, install hooks, and verify setup
+	@if [ -z "$$SANDBOX_ENV" ]; then echo "⚠️  direnv not loaded. Run: direnv allow"; exit 1; fi
 	$(UV) venv
 	$(UV) sync
 	$(PC) install

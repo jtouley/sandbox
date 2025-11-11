@@ -1,4 +1,19 @@
+# Ignore Python virtual environments and cache
 .venv/
 __pycache__/
 .DS_Store
+# Jupyter Notebook checkpoints
 .ipynb_checkpoints/
+# Environment variable files
+.envrc
+data/
+.delta_logs/
+.prefect/
+.direnv/
+.ruff_cache/
+.pytest_cache/
+# VSCode settings
+.vscode/
+# Logs
+logs/
+*.log
