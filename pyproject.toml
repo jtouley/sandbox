@@ -8,6 +8,7 @@ dependencies = [
   "pyarrow",
   "pandas",
   "duckdb",
+  "deltalake",
   "prefect",
   "pulumi",
   "rich",

@@ -48,7 +48,7 @@ result = (
 )
 print(f"Eager (with filters): {time.perf_counter() - start:.3f}s")
 
-path = "labs/data/yellow_tripdata_2025-01.parquet"
+path = "data/raw/yellow_tripdata_2025-01.parquet"
 
 # Lazy evaluation with explain
 print("=== LAZY PLAN ===")
