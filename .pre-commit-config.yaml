@@ -24,3 +24,13 @@ repos:
     rev: 0.7.1
     hooks:
       - id: nbstripout
+
+  - repo: https://github.com/checkmake/checkmake.git
+    rev: 0.2.2
+    hooks:
+    -   id: checkmake
+
+  - repo: https://github.com/thlorenz/doctoc
+    rev: v2.2.0
+    hooks:
+    -   id: doctoc

@@ -1,3 +1,22 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Day 02: Delta vs Parquet Trade-offs](#day-02-delta-vs-parquet-trade-offs)
+  - [Quick Start](#quick-start)
+  - [Experiments](#experiments)
+    - [1. Schema Enforcement](#1-schema-enforcement)
+    - [2. Partitioning Strategy](#2-partitioning-strategy)
+    - [3. Multi-file Aggregation](#3-multi-file-aggregation)
+    - [4. Schema Evolution](#4-schema-evolution)
+    - [5. Compression Trade-offs](#5-compression-trade-offs)
+  - [Project Structure](#project-structure)
+  - [Output](#output)
+  - [Key Questions Answered](#key-questions-answered)
+  - [Next Steps](#next-steps)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Day 02: Delta vs Parquet Trade-offs
 
 Comprehensive experiments comparing Parquet and Delta Lake across multiple dimensions.

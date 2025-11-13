@@ -1,3 +1,28 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [🧪 Sandbox](#%F0%9F%A7%AA-sandbox)
+  - [📚 Focus Areas](#-focus-areas)
+  - [🧩 Structure](#%F0%9F%A7%A9-structure)
+  - [🧠 Principles](#-principles)
+  - [⚙️ Environment](#-environment)
+    - [System Requirements](#system-requirements)
+    - [Why This Setup?](#why-this-setup)
+    - [Setup Instructions](#setup-instructions)
+      - [1. **Install Prerequisites** (One-time)](#1-install-prerequisites-one-time)
+      - [2. **Clone & Initialize**](#2-clone--initialize)
+      - [3. **Verify Setup**](#3-verify-setup)
+    - [Available Commands](#available-commands)
+    - [Environment Variables](#environment-variables)
+  - [📖 Journal Examples](#-journal-examples)
+  - [🧪 Example Experiment](#%F0%9F%A7%AA-example-experiment)
+  - [✅ Quick Start](#-quick-start)
+  - [🐛 Troubleshooting](#-troubleshooting)
+  - [📝 License](#-license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # 🧪 Sandbox
 
 Structured environment for **systematic learning**, **benchmarking**, and **experimentation** across modern data-engineering tools.
