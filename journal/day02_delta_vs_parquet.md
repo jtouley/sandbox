@@ -1,3 +1,11 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Day 02 – Delta vs Parquet](#day-02--delta-vs-parquet)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Day 02 – Delta vs Parquet
 
 **Goal**
