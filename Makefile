@@ -11,8 +11,21 @@ PKG := sandbox
 GREEN := \033[32m
 NC := \033[0m
 
+.PHONY: help all clean test init install hooks fmt lint check nb-clean day
+
 help: ## Show this help
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS(":.*?## ")}; {printf "\033[36m%-22s\033[0m %s\n", $$1, $$2}'
+
+all: ## Run all checks and tests
+	@$(MAKE) check
+	@$(MAKE) test
+
+clean: ## Clean generated files and caches
+	@find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+	@find . -type d -name ".pytest_cache" -exec rm -rf {} + 2>/dev/null || true
+	@find . -type d -name ".ruff_cache" -exec rm -rf {} + 2>/dev/null || true
+	@find . -type f -name "*.pyc" -delete 2>/dev/null || true
+	@echo "$(GREEN)Cleaned cache files.$(NC)"
 
 # ---- Environment ----
 init: ## Create venv, install hooks, and verify setup
