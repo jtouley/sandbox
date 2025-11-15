@@ -1,0 +1,18 @@
+# File Source Configuration
+# Settings for ingesting existing JSONL files
+
+file:
+  # Path supports glob patterns
+  # Examples:
+  #   path: "data/raw/messages.jsonl"
+  #   path: "data/raw/*.jsonl"
+  #   path: "../day04_pubsub/data/raw/pubsub_sim_*.jsonl"
+
+  # Expected schema (for validation)
+  schema:
+    required_fields:
+      - message_id
+      - sequence_id
+      - partition_id
+      - created_at
+      - value

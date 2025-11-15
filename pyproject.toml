@@ -13,6 +13,9 @@ dependencies = [
   "pulumi",
   "rich",
   "tabulate",
+  "structlog",
+  "pyyaml",
+  "pydantic",
 ]
 
 [dependency-groups]

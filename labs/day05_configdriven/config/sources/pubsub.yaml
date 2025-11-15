@@ -1,0 +1,18 @@
+# Pub/Sub Source Configuration
+# Settings specific to the pub/sub simulator
+
+pubsub:
+  # Number of partitions to simulate
+  partitions: 3
+
+  # Asyncio queue buffer size
+  buffer_size: 100
+
+  # Logging interval (log every N messages)
+  log_interval: 10000
+
+  # Message schema configuration
+  message:
+    id_length: 8              # Length of random message_id
+    value_range: [100, 10000] # Business value range
+    zipcode_digits: 5         # Zipcode length

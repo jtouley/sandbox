@@ -1,0 +1,86 @@
+# Config-Driven Pipeline Configuration
+# Main configuration file for the data pipeline
+
+pipeline:
+  name: "configdriven-pipeline"
+  version: "1.0"
+
+# Data source configuration
+source:
+  type: "pubsub"  # Options: pubsub | polars_synthetic | file | dlt
+  config_file: "config/sources/pubsub.yaml"  # Source-specific config
+
+# Generation settings (for pubsub/polars_synthetic sources)
+generation:
+  scale: 10000000  # Number of records or presets: small|medium|large|xlarge
+  seed: 42      # Null for random seed each run
+
+  mode: "chaos"  # Options: chaos | speed
+  # NOTE: mode only applies to polars_synthetic source
+  # - chaos: realistic simulation with delays (SLOW for large scale)
+  # - speed: fast Polars generation (1M records in ~1 second)
+  # For pubsub source, mode is ignored (always uses chaos simulation)
+
+  chaos:
+    mode: "random"  # Options: fixed | random
+    # fixed: use exact values below
+    # random: sample uniformly within specified ranges
+
+    dup_prob: 0.10           # Fixed: exactly 10% duplicates
+    # dup_prob: [0.05, 0.15] # Random: 5-15% duplicates (list syntax)
+
+    slow_prob: 0.10          # Fixed: exactly 10% out-of-order
+    # slow_prob: [0.05, 0.15]
+
+    base_delay: 0.01         # Seconds between messages
+    # base_delay: [0.005, 0.02]
+
+    jitter: 0.02             # Random delay variation
+    # jitter: [0.01, 0.05]
+
+# Deduplication strategies to run
+strategies:
+  enabled:
+    - bronze_append   # Recommended: fast + observable + reprocessable
+    - polars_merge    # Fastest for batch dedup
+    - eager_dedup     # Not recommended: lost observability
+
+  # Bronze: append-only with hash columns (immutable source of truth)
+  bronze_append:
+    partition_by: ["partition_date"]
+    hash_algorithm: "sha256"  # sha256 | md5 (sha256 recommended)
+
+  # Polars MERGE: in-memory last-write-wins deduplication
+  polars_merge:
+    dedup_key: "message_id"
+    sort_by: "created_at"
+    keep: "last"  # first | last
+
+  # Eager: filter duplicates before write (not recommended)
+  eager_dedup:
+    write_mode: "overwrite"
+    hash_algorithm: "sha256"
+
+# Storage configuration (uses .envrc paths)
+storage:
+  raw_data_path: "${RAW_DATA_PATH}"
+  delta_base_path: "${DELTA_TABLE_PATH}"
+  retention_days: 30
+
+# Prefect orchestration
+prefect:
+  flow_name: "config-driven-pipeline"
+
+  execution:
+    task_runner: "concurrent"  # Run strategies in parallel
+    max_retries: 3
+    retry_delay_seconds: 60
+
+  logging:
+    level: "${LOG_LEVEL}"  # From .envrc (INFO|DEBUG)
+    structured: true
+
+  server:
+    enabled: true  # Use .serve() for local deployment
+    parameters:
+      cron: null   # null=on-demand, "0 */6 * * *"=every 6 hours

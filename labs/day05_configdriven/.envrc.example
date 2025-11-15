@@ -1,0 +1,49 @@
+# .envrc.example - Safe template for sandbox environment
+# SECURITY: Contains example values only. Copy to .envrc and customize.
+# .envrc is gitignored and loaded by direnv automatically.
+
+# Python environment (managed by uv)
+# DO NOT use: layout python / layout python3.14 / export VIRTUAL_ENV
+# Let uv own `.venv`; we only expose it if present.
+if [ -d "$PWD/.venv/bin" ]; then
+  PATH_add "$PWD/.venv/bin"
+fi
+
+# Environment marker
+export SANDBOX_ENV="local"
+
+# Polars optimization
+export POLARS_MAX_THREADS=8
+export POLARS_VERBOSE=0
+
+# Delta Lake
+export DELTA_LOG_PATH="./.delta_logs"
+
+# Prefect (local server)
+export PREFECT_API_URL="http://127.0.0.1:4200/api"
+export PREFECT_LOGGING_LEVEL="INFO"
+
+# Pub/Sub emulator (optional - for testing)
+export PUBSUB_EMULATOR_HOST="localhost:8085"
+export PUBSUB_PROJECT_ID="sandbox-local"
+
+# Data paths (auto-created on load)
+export DATA_ROOT="./data"
+export RAW_DATA_PATH="${DATA_ROOT}/raw"
+export PROCESSED_DATA_PATH="${DATA_ROOT}/processed"
+export DELTA_TABLE_PATH="${DATA_ROOT}/delta"
+
+# Config paths
+export CONFIG_PATH="${PWD}/labs/day05_configdriven/config"
+export PIPELINE_CONFIG="${CONFIG_PATH}/pipeline.yaml"
+
+# Python path for labs
+export PYTHONPATH="${PWD}/labs:${PYTHONPATH}"
+
+# Logging
+export LOG_LEVEL="INFO"  # Use DEBUG for development
+
+# Create directories on load
+mkdir -p "${RAW_DATA_PATH}" "${PROCESSED_DATA_PATH}" "${DELTA_TABLE_PATH}"
+
+echo "✅ Sandbox environment loaded (day05_configdriven)"
