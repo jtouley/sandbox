@@ -14,6 +14,7 @@ Key Questions:
 
 import random
 import time
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import polars as pl
@@ -42,8 +43,6 @@ def generate_test_data(n_rows: int = N_ROWS) -> pl.DataFrame:
     """
 
     random.seed(SEED)
-
-    from datetime import datetime, timedelta
 
     # Generate enough timestamps for the requested rows
     # Calculate interval needed to span the year with n_rows timestamps
