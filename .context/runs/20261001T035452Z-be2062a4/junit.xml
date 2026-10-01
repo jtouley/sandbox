@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="2" failures="0" skipped="0" tests="2" time="0.108" timestamp="2026-10-01T03:54:52.850672+00:00" hostname="vm"><testcase classname="" name="tests.gates.test_history_gates" time="0.000"><error message="collection failure">ImportError while importing test module '/home/user/sandbox/labs/bob_killer/tests/gates/test_history_gates.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/gates/test_history_gates.py:8: in &lt;module&gt;
+    from bk_gates.core import load_gates
+E   ModuleNotFoundError: No module named 'bk_gates.core'</error></testcase><testcase classname="" name="tests.gates.test_runner" time="0.000"><error message="collection failure">ImportError while importing test module '/home/user/sandbox/labs/bob_killer/tests/gates/test_runner.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/gates/test_runner.py:6: in &lt;module&gt;
+    from bk_gates.core import load_gates
+E   ModuleNotFoundError: No module named 'bk_gates.core'</error></testcase></testsuite></testsuites>
