@@ -18,3 +18,5 @@ labs/data/
 # Logs
 logs/
 *.log
+# Bob Killer's hash-chained hook log is committed evidence (labs/bob_killer, SPEC gates)
+!.context/hooks.log
