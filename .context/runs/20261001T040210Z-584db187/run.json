@@ -1,0 +1,25 @@
+{
+  "junit_sha256": "22cc2ff5978641b3cf97a03ae3b9d19631fa51ff75b81d839719cffd11a4ac52",
+  "nodes": {
+    "::tests.integration.test_api": "error",
+    "::tests.integration.test_cli": "error",
+    "::tests.unit.test_contracts": "error",
+    "::tests.unit.test_registry": "error",
+    "::tests.unit.test_store": "error",
+    "::tests.unit.test_uploads": "error",
+    "tests.unit.test_verify_config::test_bool_is_not_number": "passed",
+    "tests.unit.test_verify_config::test_next_float_differs": "passed",
+    "tests.unit.test_verify_config::test_signed_zero_differs": "passed",
+    "tests.unit.test_verify_config::test_text_is_not_number": "passed",
+    "tests.unit.test_verify_config::test_value_equals_itself": "passed"
+  },
+  "pytest_args": [
+    "--continue-on-collection-errors",
+    "tests/unit",
+    "tests/integration"
+  ],
+  "recorded_at": "2026-10-01T04:02:10Z",
+  "run_id": "20261001T040210Z-584db187",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "3dc9db0f3786e55b03333ad65af7e092689da87ce8fbb1f0f2396462bd6daeba"
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="6" failures="0" skipped="0" tests="11" time="1.216" timestamp="2026-10-01T04:02:10.879457+00:00" hostname="vm"><properties><property name="hypothesis-statistics-tests/unit/test_verify_config.py::test_value_equals_itself" value="dGVzdHMvdW5pdC90ZXN0X3ZlcmlmeV9jb25maWcucHk6OnRlc3RfdmFsdWVfZXF1YWxzX2l0c2VsZjoKCiAgLSBkdXJpbmcgZ2VuZXJhdGUgcGhhc2UgKDAuMDcgc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IDwgMW1zLCBvZiB3aGljaCA8IDFtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gMTAwIHBhc3NpbmcsIDAgZmFpbGluZywgYW5kIDAgaW52YWxpZCB0ZXN0IGNhc2VzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz0xMDA=" /><property name="hypothesis-statistics-tests/unit/test_verify_config.py::test_next_float_differs" value="dGVzdHMvdW5pdC90ZXN0X3ZlcmlmeV9jb25maWcucHk6OnRlc3RfbmV4dF9mbG9hdF9kaWZmZXJzOgoKICAtIGR1cmluZyBnZW5lcmF0ZSBwaGFzZSAoMC4wNSBzZWNvbmRzKToKICAgIC0gVHlwaWNhbCBydW50aW1lczogPCAxbXMsIG9mIHdoaWNoIDwgMW1zIGluIGRhdGEgZ2VuZXJhdGlvbgogICAgLSAxMDAgcGFzc2luZywgMCBmYWlsaW5nLCBhbmQgMCBpbnZhbGlkIHRlc3QgY2FzZXMKCiAgLSBTdG9wcGVkIGJlY2F1c2Ugc2V0dGluZ3MubWF4X2V4YW1wbGVzPTEwMA==" /></properties><testcase classname="" name="tests.unit.test_contracts" time="0.000"><error message="collection failure">ImportError while importing test module '/home/user/sandbox/labs/bob_killer/tests/unit/test_contracts.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_contracts.py:10: in &lt;module&gt;
+    from bob_killer.contracts import TABLES
+E   ImportError: cannot import name 'TABLES' from 'bob_killer.contracts' (/home/user/sandbox/labs/bob_killer/src/bob_killer/contracts/__init__.py)</error></testcase><testcase classname="" name="tests.unit.test_registry" time="0.000"><error message="collection failure">ImportError while importing test module '/home/user/sandbox/labs/bob_killer/tests/unit/test_registry.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_registry.py:9: in &lt;module&gt;
+    from bob_killer.registry import Registry, load_entry_points
+E   ModuleNotFoundError: No module named 'bob_killer.registry'</error></testcase><testcase classname="" name="tests.unit.test_store" time="0.000"><error message="collection failure">ImportError while importing test module '/home/user/sandbox/labs/bob_killer/tests/unit/test_store.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_store.py:7: in &lt;module&gt;
+    from bob_killer.contracts.runs import RunState, StageState, StageStatus
+E   ModuleNotFoundError: No module named 'bob_killer.contracts.runs'</error></testcase><testcase classname="" name="tests.unit.test_uploads" time="0.000"><error message="collection failure">ImportError while importing test module '/home/user/sandbox/labs/bob_killer/tests/unit/test_uploads.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_uploads.py:9: in &lt;module&gt;
+    from bob_killer.contracts.runs import UploadLimits
+E   ModuleNotFoundError: No module named 'bob_killer.contracts.runs'</error></testcase><testcase classname="" name="tests.integration.test_api" time="0.000"><error message="collection failure">ImportError while importing test module '/home/user/sandbox/labs/bob_killer/tests/integration/test_api.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/integration/test_api.py:12: in &lt;module&gt;
+    from bob_killer.api.main import app, get_limits, get_store
+E   ModuleNotFoundError: No module named 'bob_killer.api.main'</error></testcase><testcase classname="" name="tests.integration.test_cli" time="0.000"><error message="collection failure">ImportError while importing test module '/home/user/sandbox/labs/bob_killer/tests/integration/test_cli.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/integration/test_cli.py:9: in &lt;module&gt;
+    from bob_killer.cli import EXIT_OK, EXIT_REJECTED, main
+E   ModuleNotFoundError: No module named 'bob_killer.cli'</error></testcase><testcase classname="tests.unit.test_verify_config" name="test_value_equals_itself" time="0.096" /><testcase classname="tests.unit.test_verify_config" name="test_next_float_differs" time="0.051" /><testcase classname="tests.unit.test_verify_config" name="test_bool_is_not_number" time="0.000" /><testcase classname="tests.unit.test_verify_config" name="test_signed_zero_differs" time="0.000" /><testcase classname="tests.unit.test_verify_config" name="test_text_is_not_number" time="0.000" /></testsuite></testsuites>
