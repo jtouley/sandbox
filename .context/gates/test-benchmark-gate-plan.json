@@ -1,0 +1,5 @@
+{
+  "slug": "test-benchmark-gate-plan",
+  "RUN_BY_SCRIPT": "test_benchmark_gate.py",
+  "mode": "plan"
+}

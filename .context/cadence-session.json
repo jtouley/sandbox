@@ -1,0 +1,33 @@
+{
+  "skill": "cadence",
+  "pipeline_run_id": "7e55bbdb-0641-4d47-a41c-c201248f632b",
+  "task_id": "gh-5",
+  "task_source": "explicit",
+  "task_description": "Bob Killer Phase 0 skeleton",
+  "branch": "ccr-0d94cccb-c40ohp",
+  "ticket_tokens": [
+    "5",
+    "ccr-0d94cccb-c40ohp",
+    "gh-5"
+  ],
+  "fresh_run": true,
+  "supersede_on_activate": false,
+  "superseded_paths": [],
+  "activated_at": "2026-10-01T03:43:33.920753+00:00",
+  "workspace": "/home/user/sandbox",
+  "primary_checkout": "/home/user/sandbox",
+  "context_root": "/home/user/sandbox/.context",
+  "matching_artifacts": {},
+  "resume_slug": "activate-session",
+  "resume_block": "A1",
+  "resume_reason": "Fresh run \u2014 start at A1 (activate-session)",
+  "active_skill": "cadence",
+  "registry_version": 1,
+  "env_exports": {
+    "CURSOR_ACTIVE_SKILL": "cadence",
+    "CADENCE_TASK_ID": "gh-5",
+    "CADENCE_FRESH_RUN": "1",
+    "CADENCE_PIPELINE_RUN_ID": "7e55bbdb-0641-4d47-a41c-c201248f632b",
+    "CADENCE_HOME": "/home/user/cadence"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "slug": "preflight",
+  "RUN_BY_SCRIPT": "preflight.py",
+  "git_toplevel": "/home/user/sandbox"
+}

@@ -1,0 +1,4 @@
+{
+  "slug": "validate-gate",
+  "RUN_BY_SCRIPT": "validate_gate.py"
+}
