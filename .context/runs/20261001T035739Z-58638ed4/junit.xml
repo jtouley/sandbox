@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="19" skipped="0" tests="20" time="0.120" timestamp="2026-10-01T03:57:40.127216+00:00" hostname="vm"><testcase classname="" name="tests.unit.test_verify_config" time="0.000"><error message="collection failure">ImportError while importing test module '/home/user/sandbox/labs/bob_killer/tests/unit/test_verify_config.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_verify_config.py:3: in &lt;module&gt;
+    from bob_killer.verify.config import values_equal
+E   ModuleNotFoundError: No module named 'bob_killer.verify.config'</error></testcase><testcase classname="tests.gates.test_static_gates" name="test_clean_project_passes" time="0.005"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f105298aab0&gt;
+
+    def test_clean_project_passes(project: Project) -&gt; None:
+        project.write({**BASE, **CLEAN_FILES})
+&gt;       assert _rules(project) == set()
+               ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:75: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f105298aab0&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[0-no_oracle_literals/literal]" time="0.002"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f10529c3350&gt;
+files = {'tests/unit/test_c.py': 'def test_c():\n    assert f() == 6.0\n'}
+rule = 'no_oracle_literals/literal'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f10529c3350&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[1-no_oracle_literals/literal]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f10529c3e00&gt;
+files = {'tests/integration/test_c.py': "def test_c():\n    assert 'x' == f()\n"}
+rule = 'no_oracle_literals/literal'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f10529c3e00&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[2-no_oracle_literals/literal]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f10529fc650&gt;
+files = {'tests/unit/test_c.py': 'def test_c():\n    assert f() == -3\n'}
+rule = 'no_oracle_literals/literal'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f10529fc650&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[3-no_oracle_literals/literal]" time="0.002"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f10529fd280&gt;
+files = {'tests/unit/test_c.py': 'def test_c():\n    assert f() == [1, 2]\n'}
+rule = 'no_oracle_literals/literal'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f10529fd280&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[4-no_oracle_literals/literal]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f10529c3800&gt;
+files = {'tests/unit/test_c.py': 'EXPECTED = 6.0\n\n\ndef test_c():\n    assert f() == EXPECTED\n'}
+rule = 'no_oracle_literals/literal'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f10529c3800&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[5-no_silent_skips/unallowed]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f105298aab0&gt;
+files = {'tests/unit/test_c.py': 'import pytest\n\n\n@pytest.mark.xfail\ndef test_c():\n    assert f()\n'}
+rule = 'no_silent_skips/unallowed'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f105298aab0&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[6-no_silent_skips/unallowed]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f105295df40&gt;
+files = {'tests/unit/test_c.py': "import pytest\n\n\ndef test_c():\n    pytest.skip('later')\n"}
+rule = 'no_silent_skips/unallowed'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f105295df40&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[7-no_silent_skips/unallowed]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f10529fcbf0&gt;
+files = {'tests/unit/test_c.py': 'import pytest\n\n\ndef test_c():\n    assert f() == pytest.approx(g())\n'}
+rule = 'no_silent_skips/unallowed'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f10529fcbf0&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[8-no_silent_skips/unallowed]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f10529fdf70&gt;
+files = {'tests/unit/test_c.py': 'from pytest import approx\n\n\ndef test_c():\n    assert f() == approx(g())\n'}
+rule = 'no_silent_skips/unallowed'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f10529fdf70&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[9-no_silent_skips/unallowed]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f10529feb10&gt;
+files = {'tests/unit/test_c.py': 'import pytest as pt\n\n\n@pt.mark.skip\ndef test_c():\n    assert f()\n'}
+rule = 'no_silent_skips/unallowed'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f10529feb10&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[10-no_silent_skips/unallowed]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f10529ff6b0&gt;
+files = {'tests/unit/test_c.py': 'import math\n\n\ndef test_c():\n    assert math.isclose(f(), g())\n'}
+rule = 'no_silent_skips/unallowed'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f10529ff6b0&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[11-no_silent_skips/unknown-allow-id]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f1052820260&gt;
+files = {'tests/unit/test_c.py': 'import pytest\n\n\n@pytest.mark.skip  # allow: NOPE\ndef test_c():\n    assert f()\n'}
+rule = 'no_silent_skips/unknown-allow-id'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f1052820260&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[12-no_silent_skips/unknown-allow-id]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f1052820da0&gt;
+files = {'tests/unit/test_c.py': 'import pytest\n\n\n@pytest.mark.skip  # allow: A2\ndef test_c():\n    assert f()\n'}
+rule = 'no_silent_skips/unknown-allow-id'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f1052820da0&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[13-exact_parity/missing-comparator]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f1052821880&gt;
+files = {'src/bob_killer/verify/config.py': 'def other() -&gt; None:\n    pass\n'}
+rule = 'exact_parity/missing-comparator'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f1052821880&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[14-exact_parity/tolerance-param]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f1052822390&gt;
+files = {'src/bob_killer/verify/config.py': 'def values_equal(expected: object, actual: object, atol: float = 1e-9) -&gt; bool:\n    return type(expected) is type(actual) and expected == actual\n'}
+rule = 'exact_parity/tolerance-param'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f1052822390&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[15-exact_parity/tolerance-param]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f1052822ed0&gt;
+files = {'src/bob_killer/verify/config.py': 'def values_equal(expected: object, actual: object, **kwargs: object) -&gt; bool:\n    return type(expected) is type(actual) and expected == actual\n'}
+rule = 'exact_parity/tolerance-param'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f1052822ed0&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[16-exact_parity/tolerance-constant]" time="0.001"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f10529fc410&gt;
+files = {'src/bob_killer/verify/diff.py': 'TOLERANCE = 1e-12\n'}
+rule = 'exact_parity/tolerance-constant'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f10529fc410&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase><testcase classname="tests.gates.test_static_gates" name="test_cheat_is_rejected[17-exact_parity/approx-call]" time="0.002"><failure message="KeyError: 'no_oracle_literals'">project = &lt;tests.gates.conftest.Project object at 0x7f10529fe4e0&gt;
+files = {'src/bob_killer/verify/diff.py': 'import math\n\n\ndef same(a: float, b: float) -&gt; bool:\n    return math.isclose(a, b)\n'}
+rule = 'exact_parity/approx-call'
+
+    @pytest.mark.parametrize(("files", "rule"), CHEATS, ids=[f"{i}-{r}" for i, (_, r) in enumerate(CHEATS)])
+    def test_cheat_is_rejected(project: Project, files: dict[str, str], rule: str) -&gt; None:
+        project.write({**BASE, **files})
+&gt;       assert rule in _rules(project)
+                       ^^^^^^^^^^^^^^^
+
+tests/gates/test_static_gates.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = &lt;tests.gates.conftest.Project object at 0x7f10529fe4e0&gt;
+
+    def _rules(p: Project) -&gt; set[str]:
+        gates = load_gates()
+&gt;       return {v.rule for name in STATIC_GATES for v in gates[name].check(p.context())}
+                                                         ^^^^^^^^^^^
+E       KeyError: 'no_oracle_literals'
+
+tests/gates/test_static_gates.py:70: KeyError</failure></testcase></testsuite></testsuites>

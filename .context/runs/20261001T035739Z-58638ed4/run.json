@@ -1,0 +1,34 @@
+{
+  "junit_sha256": "ff848f0d16a72152f647e1422598de2fd7654779486e8ee955434b2436121db5",
+  "nodes": {
+    "::tests.unit.test_verify_config": "error",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[0-no_oracle_literals/literal]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[1-no_oracle_literals/literal]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[10-no_silent_skips/unallowed]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[11-no_silent_skips/unknown-allow-id]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[12-no_silent_skips/unknown-allow-id]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[13-exact_parity/missing-comparator]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[14-exact_parity/tolerance-param]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[15-exact_parity/tolerance-param]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[16-exact_parity/tolerance-constant]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[17-exact_parity/approx-call]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[2-no_oracle_literals/literal]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[3-no_oracle_literals/literal]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[4-no_oracle_literals/literal]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[5-no_silent_skips/unallowed]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[6-no_silent_skips/unallowed]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[7-no_silent_skips/unallowed]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[8-no_silent_skips/unallowed]": "failed",
+    "tests.gates.test_static_gates::test_cheat_is_rejected[9-no_silent_skips/unallowed]": "failed",
+    "tests.gates.test_static_gates::test_clean_project_passes": "failed"
+  },
+  "pytest_args": [
+    "--continue-on-collection-errors",
+    "tests/gates/test_static_gates.py",
+    "tests/unit/test_verify_config.py"
+  ],
+  "recorded_at": "2026-10-01T03:57:39Z",
+  "run_id": "20261001T035739Z-58638ed4",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "629363e2edd439c04c7ce830cc955ea1e8dd7eba2a323e6085db0669f8a3e500"
+}
