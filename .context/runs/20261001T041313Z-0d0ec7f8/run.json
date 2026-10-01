@@ -1,0 +1,13 @@
+{
+  "junit_sha256": "52eae268e3e0d2db3bdba41d5e336d052784307a6253127f2dd14efa7a713ba5",
+  "nodes": {
+    "tests.gates.test_evasions::test_ignored_hook_log_fails": "failed"
+  },
+  "pytest_args": [
+    "tests/gates/test_evasions.py::test_ignored_hook_log_fails"
+  ],
+  "recorded_at": "2026-10-01T04:13:13Z",
+  "run_id": "20261001T041313Z-0d0ec7f8",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "b2ccc2c70bbf3d7eaadd554ec584e1ec80b222976f973cf01e6bc2be78c323ab"
+}
