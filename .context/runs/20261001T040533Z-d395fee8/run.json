@@ -1,0 +1,18 @@
+{
+  "junit_sha256": "bdccefd03d2fbfb6fac19b90a28b4096736843100f8a3e50a3b960bab5ce663c",
+  "nodes": {
+    "::tests.gates.test_contracts_versioned": "error",
+    "::tests.unit.test_fetch_golden": "error",
+    "::tests.unit.test_oracle": "error"
+  },
+  "pytest_args": [
+    "--continue-on-collection-errors",
+    "tests/gates/test_contracts_versioned.py",
+    "tests/unit/test_fetch_golden.py",
+    "tests/unit/test_oracle.py"
+  ],
+  "recorded_at": "2026-10-01T04:05:33Z",
+  "run_id": "20261001T040533Z-d395fee8",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "6acd522d86fbdddb6153205d509f2295fb8f94cc5a66aa47d76d35674ae76e6c"
+}
