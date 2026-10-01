@@ -25,3 +25,14 @@ Resume: next block is **E1 implement** (`--resume`). Note: `pipeline_status.py`
 currently reports R2. That's a Cadence bug: R1 detection matches the shared
 `.context/reviews/` directory that holds plan reviews. Ignore its resume hint
 until fixed.
+
+## Execution (resumed run, 2026-10-01)
+
+| Block | Result | Artifact |
+|---|---|---|
+| E1 implement | 7 red→green cycles + bootstrap, 5 labeled gate-change commits; 11 gates; full suite green | branch commits, `.context/runs/*` |
+| E2 impl-artifact | OK | implementation/gh-5.json |
+| E3 arch-review-impl | OK, 0 findings + manual conformance with 5 recorded deviations | implementation/gh-5_conformance.md |
+| E4 draft PR | **Not opened.** Waiting on user go-ahead (needed for the CI-green proof) | — |
+
+Phase 0 evidence: `.context/evidence/*_cheat-rejections*.txt` (final round: 7/7 cheats rejected, control passes).
