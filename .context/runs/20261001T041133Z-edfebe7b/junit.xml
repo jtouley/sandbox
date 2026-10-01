@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="4" time="0.312" timestamp="2026-10-01T04:11:33.604040+00:00" hostname="vm"><testcase classname="tests.gates.test_evasions" name="test_dynamic_import_skips_rejected[dunder-import-xfail]" time="0.008"><failure message="AssertionError: assert (set() &amp; {'no_silent_skips/dynamic-import', 'no_silent_skips/unallowed'})">project = &lt;tests.gates.conftest.Project object at 0x7fb6baa75af0&gt;
+source = "@__import__('pytest').mark.xfail\ndef test_c():\n    assert f()\n"
+
+    @pytest.mark.parametrize(
+        "source",
+        [
+            "@__import__('pytest').mark.xfail\ndef test_c():\n    assert f()\n",
+            "import importlib\n\n\ndef test_c():\n    assert f() == importlib.import_module('pytest').approx(g())\n",
+            "def test_c():\n    __import__('pytest').skip('later')\n",
+        ],
+        ids=["dunder-import-xfail", "import-module-approx", "dunder-import-skip"],
+    )
+    def test_dynamic_import_skips_rejected(project: Project, source: str) -&gt; None:
+        project.write({**BASE, "tests/unit/test_c.py": source})
+        rules = {v.rule for v in load_gates()["no_silent_skips"].check(project.context())}
+&gt;       assert rules &amp; {"no_silent_skips/unallowed", "no_silent_skips/dynamic-import"}
+E       AssertionError: assert (set() &amp; {'no_silent_skips/dynamic-import', 'no_silent_skips/unallowed'})
+
+tests/gates/test_evasions.py:28: AssertionError</failure></testcase><testcase classname="tests.gates.test_evasions" name="test_dynamic_import_skips_rejected[import-module-approx]" time="0.002"><failure message="AssertionError: assert (set() &amp; {'no_silent_skips/dynamic-import', 'no_silent_skips/unallowed'})">project = &lt;tests.gates.conftest.Project object at 0x7fb6baad8800&gt;
+source = "import importlib\n\n\ndef test_c():\n    assert f() == importlib.import_module('pytest').approx(g())\n"
+
+    @pytest.mark.parametrize(
+        "source",
+        [
+            "@__import__('pytest').mark.xfail\ndef test_c():\n    assert f()\n",
+            "import importlib\n\n\ndef test_c():\n    assert f() == importlib.import_module('pytest').approx(g())\n",
+            "def test_c():\n    __import__('pytest').skip('later')\n",
+        ],
+        ids=["dunder-import-xfail", "import-module-approx", "dunder-import-skip"],
+    )
+    def test_dynamic_import_skips_rejected(project: Project, source: str) -&gt; None:
+        project.write({**BASE, "tests/unit/test_c.py": source})
+        rules = {v.rule for v in load_gates()["no_silent_skips"].check(project.context())}
+&gt;       assert rules &amp; {"no_silent_skips/unallowed", "no_silent_skips/dynamic-import"}
+E       AssertionError: assert (set() &amp; {'no_silent_skips/dynamic-import', 'no_silent_skips/unallowed'})
+
+tests/gates/test_evasions.py:28: AssertionError</failure></testcase><testcase classname="tests.gates.test_evasions" name="test_dynamic_import_skips_rejected[dunder-import-skip]" time="0.002"><failure message="AssertionError: assert (set() &amp; {'no_silent_skips/dynamic-import', 'no_silent_skips/unallowed'})">project = &lt;tests.gates.conftest.Project object at 0x7fb6baa75b80&gt;
+source = "def test_c():\n    __import__('pytest').skip('later')\n"
+
+    @pytest.mark.parametrize(
+        "source",
+        [
+            "@__import__('pytest').mark.xfail\ndef test_c():\n    assert f()\n",
+            "import importlib\n\n\ndef test_c():\n    assert f() == importlib.import_module('pytest').approx(g())\n",
+            "def test_c():\n    __import__('pytest').skip('later')\n",
+        ],
+        ids=["dunder-import-xfail", "import-module-approx", "dunder-import-skip"],
+    )
+    def test_dynamic_import_skips_rejected(project: Project, source: str) -&gt; None:
+        project.write({**BASE, "tests/unit/test_c.py": source})
+        rules = {v.rule for v in load_gates()["no_silent_skips"].check(project.context())}
+&gt;       assert rules &amp; {"no_silent_skips/unallowed", "no_silent_skips/dynamic-import"}
+E       AssertionError: assert (set() &amp; {'no_silent_skips/dynamic-import', 'no_silent_skips/unallowed'})
+
+tests/gates/test_evasions.py:28: AssertionError</failure></testcase><testcase classname="tests.gates.test_evasions" name="test_contracts_gate_reads_the_checked_project_not_the_installed_one" time="0.263"><failure message="AssertionError: assert 'contracts_versioned/drift' in set()">tmp_path = PosixPath('/tmp/pytest-of-root/pytest-18/test_contracts_gate_reads_the_0')
+
+    def test_contracts_gate_reads_the_checked_project_not_the_installed_one(tmp_path: Path) -&gt; None:
+        copy = tmp_path / "proj"
+        shutil.copytree(
+            PROJECT_ROOT / "src", copy / "src", ignore=shutil.ignore_patterns("__pycache__")
+        )
+        runs = copy / "src" / "bob_killer" / "contracts" / "runs.py"
+        runs.write_text(
+            runs.read_text().replace(
+                "    schema_version: int\n", "    schema_version: int\n    owner: str\n", 1
+            )
+        )
+        ctx = GateContext(repo_root=tmp_path, project_root=copy, base=None)
+        rules = {v.rule for v in load_gates()["contracts_versioned"].check(ctx)}
+&gt;       assert "contracts_versioned/drift" in rules
+E       AssertionError: assert 'contracts_versioned/drift' in set()
+
+tests/gates/test_evasions.py:44: AssertionError</failure></testcase></testsuite></testsuites>
