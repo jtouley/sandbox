@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.077" timestamp="2026-10-01T04:13:14.125188+00:00" hostname="vm"><testcase classname="tests.gates.test_evasions" name="test_ignored_hook_log_fails" time="0.046"><failure message="AssertionError: assert 'append_only_log/ignored' in set()">tmp_path = PosixPath('/tmp/pytest-of-root/pytest-21/test_ignored_hook_log_fails0')
+
+    def test_ignored_hook_log_fails(tmp_path: Path) -&gt; None:
+        from bk_gates.hook_log import append_event
+        from tests.gates.conftest import History
+    
+        h = History(tmp_path)
+        h.commit({".gitignore": "*.log\n"}, phase="scaffold")
+        append_event(h.root / ".context" / "hooks.log", {"event": "stop_blocked"})
+        rules = {v.rule for v in load_gates()["append_only_log"].check(h.context())}
+&gt;       assert "append_only_log/ignored" in rules
+E       AssertionError: assert 'append_only_log/ignored' in set()
+
+tests/gates/test_evasions.py:55: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,16 @@
+{
+  "junit_sha256": "3548f3e22cf55f93e4b95e3184f58533f014f928fbbd30e8364aa7b903415c96",
+  "nodes": {
+    "tests.gates.test_evasions::test_contracts_gate_reads_the_checked_project_not_the_installed_one": "failed",
+    "tests.gates.test_evasions::test_dynamic_import_skips_rejected[dunder-import-skip]": "failed",
+    "tests.gates.test_evasions::test_dynamic_import_skips_rejected[dunder-import-xfail]": "failed",
+    "tests.gates.test_evasions::test_dynamic_import_skips_rejected[import-module-approx]": "failed"
+  },
+  "pytest_args": [
+    "tests/gates/test_evasions.py"
+  ],
+  "recorded_at": "2026-10-01T04:11:33Z",
+  "run_id": "20261001T041133Z-edfebe7b",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "e204b17303de70a541c5cbf5a01a0753cb6335161d2602d343058755513ab9fc"
+}

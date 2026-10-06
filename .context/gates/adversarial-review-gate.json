@@ -1,0 +1,4 @@
+{
+  "slug": "adversarial-review-gate",
+  "RUN_BY_SCRIPT": "adversarial_review_gate.py"
+}

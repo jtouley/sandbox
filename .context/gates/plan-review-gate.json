@@ -1,0 +1,4 @@
+{
+  "slug": "plan-review-gate",
+  "RUN_BY_SCRIPT": "plan_review_gate.py"
+}

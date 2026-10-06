@@ -1,0 +1,4 @@
+{
+  "slug": "ops-gate",
+  "RUN_BY_SCRIPT": "ops_gate.py"
+}

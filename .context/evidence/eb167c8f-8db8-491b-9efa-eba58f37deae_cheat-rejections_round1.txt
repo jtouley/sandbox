@@ -1,0 +1,70 @@
+# Phase 0 cheat-rejection evidence (gh-5)
+# pipeline_run_id: eb167c8f-8db8-491b-9efa-eba58f37deae
+# base: 74a6e36 (branch head after all gates passed)
+# generated: 2026-10-01T04:10:40Z in a throwaway worktree; branch deleted afterwards
+
+## Cheat 1: implementation and test in one green commit (no red, literal oracle value)
+```
+FAIL  tdd_order
+  tdd_order/green-without-red: 3e6cbe2c green code change with no prior red
+FAIL  assertions_frozen
+  assertions_frozen/green-adds-tests: 3e6cbe2c adds unit/test_sum.py::test_sum
+FAIL  no_oracle_literals
+  no_oracle_literals/literal: tests/unit/test_sum.py:5 compares against a literal expected value
+exit=1
+```
+
+## Cheat 2: green commit loosens an existing assertion
+```
+FAIL  assertions_frozen
+  assertions_frozen/assert-modified: 23c4dbda changes unit/test_verify_config.py::test_value_equals_itself
+exit=1
+```
+
+## Cheat 3: silent xfail with no ALLOWLIST entry
+```
+FAIL  no_silent_skips
+  no_silent_skips/unallowed: tests/unit/test_later.py:4 uses pytest.mark.xfail
+exit=1
+```
+
+## Cheat 4: tolerance parameter added to the parity comparator
+```
+FAIL  exact_parity
+  exact_parity/tolerance-param: src/bob_killer/verify/config.py:8 values_equal(atol)
+  exact_parity/tolerance-param: src/bob_killer/verify/config.py:8 float default
+exit=1
+```
+
+## Cheat 5: contract field added without a schema_version bump
+```
+OK    contracts_versioned
+exit=0
+```
+
+On branch cheat-demo
+nothing to commit, working tree clean
+## Cheat 6: hook log rewritten to hide a blocked stop (uncommitted)
+```
+usage: gates.py [-h]
+                [--only {append_only_log,assertions_frozen,boundaries,contracts_versioned,coverage,exact_parity,mutation,no_oracle_literals,no_silent_skips,tdd_order,types_lint}]
+                [--base BASE] [--repo-root REPO_ROOT]
+                [--project-root PROJECT_ROOT] [--nightly]
+gates.py: error: argument --only: expected one argument
+exit=2
+```
+
+## Control: unmodified branch head passes every PR gate
+```
+OK    append_only_log
+OK    assertions_frozen
+OK    boundaries
+OK    contracts_versioned
+OK    coverage
+OK    exact_parity
+OK    no_oracle_literals
+OK    no_silent_skips
+OK    tdd_order
+OK    types_lint
+exit=0
+```

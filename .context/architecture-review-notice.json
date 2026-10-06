@@ -1,0 +1,8 @@
+{
+  "stage": "architecture-review-impl",
+  "skipped_rules": [
+    "core:dependency-direction",
+    "core:boundary-integrity"
+  ],
+  "reason": "layer_map empty in cadence.config.json"
+}

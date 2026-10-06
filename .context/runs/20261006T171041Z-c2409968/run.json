@@ -1,0 +1,19 @@
+{
+  "junit_sha256": "48294cf6af91aeffa61ce2834e173b22ea165c3ee6a5934eb40f22a2374425a2",
+  "nodes": {
+    "tests.gates.test_squash::test_honest_squash_passes": "failed",
+    "tests.gates.test_squash::test_squash_cheat_rejected[squash_hides_cheat]": "failed",
+    "tests.gates.test_squash::test_squash_cheat_rejected[squash_hides_loosened_assert]": "failed",
+    "tests.gates.test_squash::test_squash_cheat_rejected[squash_history_missing]": "failed",
+    "tests.gates.test_squash::test_squash_cheat_rejected[squash_history_not_descendant]": "failed",
+    "tests.gates.test_squash::test_squash_cheat_rejected[squash_tree_differs]": "failed",
+    "tests.gates.test_squash::test_squash_cheat_rejected[squash_without_history_trailer]": "failed"
+  },
+  "pytest_args": [
+    "tests/gates/test_squash.py"
+  ],
+  "recorded_at": "2026-10-06T17:10:41Z",
+  "run_id": "20261006T171041Z-c2409968",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "46b4617a97c9edbb8b2b0000c8357fb9543c3ca9ae6eeaa2af9ee796cb4d9a9d"
+}

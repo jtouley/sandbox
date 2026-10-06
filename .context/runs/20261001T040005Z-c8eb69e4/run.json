@@ -1,0 +1,14 @@
+{
+  "junit_sha256": "76547c7aaeeb2cf80ecb9b2cb251dd23220afdea10d710f390f0a08277058862",
+  "nodes": {
+    "::tests.gates.test_hook_log": "error"
+  },
+  "pytest_args": [
+    "--continue-on-collection-errors",
+    "tests/gates/test_hook_log.py"
+  ],
+  "recorded_at": "2026-10-01T04:00:05Z",
+  "run_id": "20261001T040005Z-c8eb69e4",
+  "tdd_phase": "red",
+  "tests_tree_sha256": "57ad363b533bf0bc48b49a0e7f70b91c7be618e785526cf7b7be29010d6b3af6"
+}

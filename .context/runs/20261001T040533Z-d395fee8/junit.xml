@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="3" failures="0" skipped="0" tests="3" time="0.046" timestamp="2026-10-01T04:05:34.182710+00:00" hostname="vm"><testcase classname="" name="tests.gates.test_contracts_versioned" time="0.000"><error message="collection failure">ImportError while importing test module '/home/user/sandbox/labs/bob_killer/tests/gates/test_contracts_versioned.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/gates/test_contracts_versioned.py:9: in &lt;module&gt;
+    from bk_gates.contracts_versioned import (
+E   ModuleNotFoundError: No module named 'bk_gates.contracts_versioned'</error></testcase><testcase classname="" name="tests.unit.test_fetch_golden" time="0.000"><error message="collection failure">ImportError while importing test module '/home/user/sandbox/labs/bob_killer/tests/unit/test_fetch_golden.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_fetch_golden.py:9: in &lt;module&gt;
+    from fetch_golden import (
+E   ModuleNotFoundError: No module named 'fetch_golden'</error></testcase><testcase classname="" name="tests.unit.test_oracle" time="0.000"><error message="collection failure">ImportError while importing test module '/home/user/sandbox/labs/bob_killer/tests/unit/test_oracle.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_oracle.py:9: in &lt;module&gt;
+    from bob_killer.verify.oracle import Oracle, OracleUnavailable, UnavailableOracle
+E   ModuleNotFoundError: No module named 'bob_killer.verify.oracle'</error></testcase></testsuite></testsuites>

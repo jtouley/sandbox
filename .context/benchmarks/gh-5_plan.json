@@ -1,0 +1,23 @@
+{
+  "RUN_BY_SKILL": "test-benchmark",
+  "task_id": "gh-5",
+  "mode": "plan",
+  "plan": ".context/plans/bob-killer-phase0_gh-5.plan.md",
+  "scores": {
+    "coverage_of_behavior": 8,
+    "assertion_strength": 8,
+    "dry_no_clone_setups": 7,
+    "layer_correctness": 8,
+    "failure_paths": 9,
+    "mutation_resilience": 7
+  },
+  "mutation_note": "No mutants run (plan mode, runtime/ empty in Phase 0). Scores are heuristic; no kill-rate claimed.",
+  "findings": [
+    {"id": "TB-1", "severity": "MEDIUM", "dimension": "dry_no_clone_setups", "finding": "Cheat fixtures each build a temp git repo; without a shared builder they will clone ~15 setups.", "action": "Add tests/gates/history.py: a HistoryBuilder (commit(files, trailer) chain) used by every cheat and control case."},
+    {"id": "TB-2", "severity": "MEDIUM", "dimension": "assertion_strength", "finding": "Gate tests could assert only non-zero exit; a gate that crashes would pass.", "action": "Assert exit code == 1 AND the exact rule id (e.g. tdd_order/empty-range) in stderr; a traceback fails the test."},
+    {"id": "TB-3", "severity": "MEDIUM", "dimension": "mutation_resilience", "finding": "Every cheat test needs a paired control (honest history passes) or mutating a gate to always-fail survives.", "action": "Parametrize cheats as (history, expected_rule) and include a clean control per gate."},
+    {"id": "TB-4", "severity": "LOW", "dimension": "layer_correctness", "finding": "Upload-limit tests belong in tests/unit for the zip inspector and one tests/integration test via the API.", "action": "Split accordingly."},
+    {"id": "TB-5", "severity": "LOW", "dimension": "coverage_of_behavior", "finding": "Property test candidate: hash-chained log verifier accepts every append-only sequence and rejects any single-line mutation.", "action": "hypothesis test over random log sequences + mutation index."}
+  ],
+  "verdict": "PASS (no HIGH findings; MEDIUM items folded into Phase B)"
+}

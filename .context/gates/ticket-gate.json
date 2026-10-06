@@ -1,0 +1,6 @@
+{
+  "slug": "ticket-gate",
+  "RUN_BY_SCRIPT": "ticket_gate.py",
+  "adapter": "github-issues",
+  "matched": "#5"
+}

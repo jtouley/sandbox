@@ -1,0 +1,75 @@
+# Phase 0 cheat-rejection evidence (gh-5), round 3
+# base: dd37f9e; generated 2026-10-01T04:14:09Z in a throwaway worktree (deleted after)
+# Each cheat is a real commit on top of the branch head; gates run over base..cheat.
+
+## Cheat 1: implementation and test in one green commit (no red, literal oracle value)
+```
+FAIL  tdd_order
+  tdd_order/green-without-red: 7e03e8ba green code change with no prior red
+FAIL  assertions_frozen
+  assertions_frozen/green-adds-tests: 7e03e8ba adds unit/test_sum.py::test_sum
+FAIL  no_oracle_literals
+  no_oracle_literals/literal: tests/unit/test_sum.py:5 compares against a literal expected value
+exit=1
+```
+
+## Cheat 2: green commit loosens an existing assertion
+```
+FAIL  assertions_frozen
+  assertions_frozen/assert-modified: 9408cac4 changes unit/test_verify_config.py::test_value_equals_itself
+exit=1
+```
+
+## Cheat 3: silent xfail, and a skip hidden behind __import__
+```
+FAIL  no_silent_skips
+  no_silent_skips/unallowed: tests/unit/test_later.py:4 uses pytest.mark.xfail
+  no_silent_skips/dynamic-import: tests/unit/test_later.py:9 dynamic import in tests
+exit=1
+```
+
+## Cheat 4: tolerance parameter added to the parity comparator
+```
+FAIL  exact_parity
+  exact_parity/tolerance-param: src/bob_killer/verify/config.py:8 values_equal(atol)
+  exact_parity/tolerance-param: src/bob_killer/verify/config.py:8 float default
+exit=1
+```
+
+## Cheat 5: contract field added without a schema_version bump
+```
+FAIL  contracts_versioned
+  contracts_versioned/drift: ddl.sql differs from v1: bump SCHEMA_VERSION and export a new snapshot (or a pinned dependency such as fastapi/pydantic drifted)
+  contracts_versioned/drift: schemas.json differs from v1: bump SCHEMA_VERSION and export a new snapshot (or a pinned dependency such as fastapi/pydantic drifted)
+  contracts_versioned/drift: openapi.json differs from v1: bump SCHEMA_VERSION and export a new snapshot (or a pinned dependency such as fastapi/pydantic drifted)
+exit=1
+```
+
+## Cheat 6: red commit with a hand-written run record (no junit, wrong digest)
+```
+FAIL  tdd_order
+  tdd_order/red-run-mismatch: 76d27853 red commit lacks an honest failing run record
+exit=1
+```
+
+## Cheat 7: hook log rewritten (chain recomputed) to hide a blocked stop
+```
+FAIL  append_only_log
+  append_only_log/rewritten: working tree rewrites committed .context/hooks.log
+exit=1
+```
+
+## Control: unmodified branch head passes every PR gate
+```
+OK    append_only_log
+OK    assertions_frozen
+OK    boundaries
+OK    contracts_versioned
+OK    coverage
+OK    exact_parity
+OK    no_oracle_literals
+OK    no_silent_skips
+OK    tdd_order
+OK    types_lint
+exit=0
+```

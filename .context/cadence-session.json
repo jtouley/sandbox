@@ -1,0 +1,35 @@
+{
+  "skill": "cadence",
+  "pipeline_run_id": "eb167c8f-8db8-491b-9efa-eba58f37deae",
+  "task_id": "gh-5",
+  "task_source": "explicit",
+  "task_description": "",
+  "branch": "ccr-0d94cccb-c40ohp",
+  "ticket_tokens": [
+    "5",
+    "ccr-0d94cccb-c40ohp",
+    "gh-5"
+  ],
+  "fresh_run": false,
+  "supersede_on_activate": false,
+  "superseded_paths": [],
+  "activated_at": "2026-10-01T03:51:22.928275+00:00",
+  "workspace": "/home/user/sandbox",
+  "primary_checkout": "/home/user/sandbox",
+  "context_root": "/home/user/sandbox/.context",
+  "matching_artifacts": {
+    "review": "/home/user/sandbox/.context/reviews/plan_bob-killer-phase0_gh-5.md"
+  },
+  "resume_slug": "implement",
+  "resume_block": "E1",
+  "resume_reason": "Resume: matching review for this ticket: /home/user/sandbox/.context/reviews/plan_bob-killer-phase0_gh-5.md",
+  "active_skill": "cadence",
+  "registry_version": 1,
+  "env_exports": {
+    "CURSOR_ACTIVE_SKILL": "cadence",
+    "CADENCE_TASK_ID": "gh-5",
+    "CADENCE_FRESH_RUN": "0",
+    "CADENCE_PIPELINE_RUN_ID": "eb167c8f-8db8-491b-9efa-eba58f37deae",
+    "CADENCE_HOME": "/home/user/cadence"
+  }
+}
