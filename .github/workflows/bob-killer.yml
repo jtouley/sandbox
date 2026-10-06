@@ -28,6 +28,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # The PR head, not GitHub's synthetic merge commit: history gates walk
+          # first-parent commits, and from a merge commit that walk lands on main.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: astral-sh/setup-uv@v6
       - run: uv sync --python 3.12 --locked
       - run: uv run python scripts/fetch_golden.py --verify-lock
