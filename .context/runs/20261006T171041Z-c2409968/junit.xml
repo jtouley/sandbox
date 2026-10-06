@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="7" skipped="0" tests="7" time="1.227" timestamp="2026-10-06T17:10:42.077563+00:00" hostname="vm"><testcase classname="tests.gates.test_squash" name="test_honest_squash_passes" time="0.138"><failure message="AssertionError: assert {'tdd_order/unknown-phase'} == set()&#10;  &#10;  Extra items in the left set:&#10;  'tdd_order/unknown-phase'&#10;  Use -v to get more diff">history = &lt;tests.gates.conftest.History object at 0x7f81f57960f0&gt;
+
+    def test_honest_squash_passes(history: History) -&gt; None:
+        honest_squash(history)
+&gt;       assert _rules(history) == set()
+E       AssertionError: assert {'tdd_order/unknown-phase'} == set()
+E         
+E         Extra items in the left set:
+E         'tdd_order/unknown-phase'
+E         Use -v to get more diff
+
+tests/gates/test_squash.py:98: AssertionError</failure></testcase><testcase classname="tests.gates.test_squash" name="test_squash_cheat_rejected[squash_hides_cheat]" time="0.083"><failure message="AssertionError: assert 'tdd_order/green-without-red' in {'tdd_order/unknown-phase'}&#10; +  where {'tdd_order/unknown-phase'} = _rules(&lt;tests.gates.conftest.History object at 0x7f81f56034a0&gt;)">history = &lt;tests.gates.conftest.History object at 0x7f81f56034a0&gt;
+build = &lt;function squash_hides_cheat at 0x7f81f57aa840&gt;
+rule = 'tdd_order/green-without-red'
+
+    @pytest.mark.parametrize(("build", "rule"), CHEATS, ids=[b.__name__ for b, _ in CHEATS])
+    def test_squash_cheat_rejected(history: History, build: Builder, rule: str) -&gt; None:
+        build(history)
+&gt;       assert rule in _rules(history)
+E       AssertionError: assert 'tdd_order/green-without-red' in {'tdd_order/unknown-phase'}
+E        +  where {'tdd_order/unknown-phase'} = _rules(&lt;tests.gates.conftest.History object at 0x7f81f56034a0&gt;)
+
+tests/gates/test_squash.py:104: AssertionError</failure></testcase><testcase classname="tests.gates.test_squash" name="test_squash_cheat_rejected[squash_hides_loosened_assert]" time="0.102"><failure message="AssertionError: assert 'assertions_frozen/assert-modified' in {'tdd_order/unknown-phase'}&#10; +  where {'tdd_order/unknown-phase'} = _rules(&lt;tests.gates.conftest.History object at 0x7f81f5603f80&gt;)">history = &lt;tests.gates.conftest.History object at 0x7f81f5603f80&gt;
+build = &lt;function squash_hides_loosened_assert at 0x7f81f57aa8e0&gt;
+rule = 'assertions_frozen/assert-modified'
+
+    @pytest.mark.parametrize(("build", "rule"), CHEATS, ids=[b.__name__ for b, _ in CHEATS])
+    def test_squash_cheat_rejected(history: History, build: Builder, rule: str) -&gt; None:
+        build(history)
+&gt;       assert rule in _rules(history)
+E       AssertionError: assert 'assertions_frozen/assert-modified' in {'tdd_order/unknown-phase'}
+E        +  where {'tdd_order/unknown-phase'} = _rules(&lt;tests.gates.conftest.History object at 0x7f81f5603f80&gt;)
+
+tests/gates/test_squash.py:104: AssertionError</failure></testcase><testcase classname="tests.gates.test_squash" name="test_squash_cheat_rejected[squash_tree_differs]" time="0.276"><failure message="AssertionError: assert 'tdd_order/squash-tree-mismatch' in {'tdd_order/unknown-phase'}&#10; +  where {'tdd_order/unknown-phase'} = _rules(&lt;tests.gates.conftest.History object at 0x7f81f576eb40&gt;)">history = &lt;tests.gates.conftest.History object at 0x7f81f576eb40&gt;
+build = &lt;function squash_tree_differs at 0x7f81f57aa980&gt;
+rule = 'tdd_order/squash-tree-mismatch'
+
+    @pytest.mark.parametrize(("build", "rule"), CHEATS, ids=[b.__name__ for b, _ in CHEATS])
+    def test_squash_cheat_rejected(history: History, build: Builder, rule: str) -&gt; None:
+        build(history)
+&gt;       assert rule in _rules(history)
+E       AssertionError: assert 'tdd_order/squash-tree-mismatch' in {'tdd_order/unknown-phase'}
+E        +  where {'tdd_order/unknown-phase'} = _rules(&lt;tests.gates.conftest.History object at 0x7f81f576eb40&gt;)
+
+tests/gates/test_squash.py:104: AssertionError</failure></testcase><testcase classname="tests.gates.test_squash" name="test_squash_cheat_rejected[squash_history_missing]" time="0.322"><failure message="AssertionError: assert 'tdd_order/squash-history-missing' in set()&#10; +  where set() = _rules(&lt;tests.gates.conftest.History object at 0x7f81f5603500&gt;)">history = &lt;tests.gates.conftest.History object at 0x7f81f5603500&gt;
+build = &lt;function squash_history_missing at 0x7f81f57aaa20&gt;
+rule = 'tdd_order/squash-history-missing'
+
+    @pytest.mark.parametrize(("build", "rule"), CHEATS, ids=[b.__name__ for b, _ in CHEATS])
+    def test_squash_cheat_rejected(history: History, build: Builder, rule: str) -&gt; None:
+        build(history)
+&gt;       assert rule in _rules(history)
+E       AssertionError: assert 'tdd_order/squash-history-missing' in set()
+E        +  where set() = _rules(&lt;tests.gates.conftest.History object at 0x7f81f5603500&gt;)
+
+tests/gates/test_squash.py:104: AssertionError</failure></testcase><testcase classname="tests.gates.test_squash" name="test_squash_cheat_rejected[squash_without_history_trailer]" time="0.097"><failure message="AssertionError: assert 'tdd_order/squash-history-missing' in {'tdd_order/unknown-phase'}&#10; +  where {'tdd_order/unknown-phase'} = _rules(&lt;tests.gates.conftest.History object at 0x7f81f5601b50&gt;)">history = &lt;tests.gates.conftest.History object at 0x7f81f5601b50&gt;
+build = &lt;function squash_without_history_trailer at 0x7f81f57aaac0&gt;
+rule = 'tdd_order/squash-history-missing'
+
+    @pytest.mark.parametrize(("build", "rule"), CHEATS, ids=[b.__name__ for b, _ in CHEATS])
+    def test_squash_cheat_rejected(history: History, build: Builder, rule: str) -&gt; None:
+        build(history)
+&gt;       assert rule in _rules(history)
+E       AssertionError: assert 'tdd_order/squash-history-missing' in {'tdd_order/unknown-phase'}
+E        +  where {'tdd_order/unknown-phase'} = _rules(&lt;tests.gates.conftest.History object at 0x7f81f5601b50&gt;)
+
+tests/gates/test_squash.py:104: AssertionError</failure></testcase><testcase classname="tests.gates.test_squash" name="test_squash_cheat_rejected[squash_history_not_descendant]" time="0.140"><failure message="AssertionError: assert 'tdd_order/squash-not-descendant' in {'tdd_order/unknown-phase'}&#10; +  where {'tdd_order/unknown-phase'} = _rules(&lt;tests.gates.conftest.History object at 0x7f81f5603470&gt;)">history = &lt;tests.gates.conftest.History object at 0x7f81f5603470&gt;
+build = &lt;function squash_history_not_descendant at 0x7f81f57aab60&gt;
+rule = 'tdd_order/squash-not-descendant'
+
+    @pytest.mark.parametrize(("build", "rule"), CHEATS, ids=[b.__name__ for b, _ in CHEATS])
+    def test_squash_cheat_rejected(history: History, build: Builder, rule: str) -&gt; None:
+        build(history)
+&gt;       assert rule in _rules(history)
+E       AssertionError: assert 'tdd_order/squash-not-descendant' in {'tdd_order/unknown-phase'}
+E        +  where {'tdd_order/unknown-phase'} = _rules(&lt;tests.gates.conftest.History object at 0x7f81f5603470&gt;)
+
+tests/gates/test_squash.py:104: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,6 @@
+{
+  "slug": "draft-pr",
+  "RUN_BY_SCRIPT": "draft_pr_gate.py",
+  "pr_url": "https://github.com/jtouley/sandbox/pull/6",
+  "branch": "ccr-0d94cccb-c40ohp"
+}
