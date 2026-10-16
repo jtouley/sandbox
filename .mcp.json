@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "cronometer": {
+      "type": "stdio",
+      "command": "bash",
+      "args": ["mcp/cronometer/run.sh"]
+    }
+  }
+}
