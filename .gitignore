@@ -18,3 +18,5 @@ labs/data/
 # Logs
 logs/
 *.log
+# tpm off switch (user-local)
+.cadence/tpm.off
