@@ -1,0 +1,17 @@
+# Lives in the project dir; dbt finds it because we run from here
+# (or pass --profiles-dir .). Pick a target with `--target md`.
+halloween_candy:
+  target: local
+  outputs:
+    # Works with no account: a DuckDB file next to the project.
+    local:
+      type: duckdb
+      path: halloween_candy.duckdb
+      threads: 4
+
+    # MotherDuck: reads MOTHERDUCK_TOKEN from your environment.
+    # Create the database once first (see README, step 4).
+    md:
+      type: duckdb
+      path: "md:halloween_candy"
+      threads: 4

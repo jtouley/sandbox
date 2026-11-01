@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: int_candy_enriched
+    description: "Haul joined to attributes, with per-candy totals and the parent tax applied."
+    columns:
+      - name: candy_name
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_candy_attributes')
+                field: candy_name
+      - name: display_name
+        description: "Null here means a new candy was added to the haul without an attributes row."
+        tests: [not_null]

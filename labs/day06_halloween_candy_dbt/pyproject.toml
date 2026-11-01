@@ -1,0 +1,11 @@
+[project]
+name = "halloween-candy-dbt"
+version = "0.1.0"
+description = "dbt + DuckDB/MotherDuck project for analyzing a Halloween candy haul."
+# dbt-core doesn't support Python 3.14 yet, so this lab has its own env (the root sandbox is 3.14).
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "dbt-core>=1.9,<2",
+  "dbt-duckdb>=1.9",
+  "duckdb",
+]
