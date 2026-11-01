@@ -7,5 +7,6 @@ requires-python = ">=3.11,<3.14"
 dependencies = [
   "dbt-core>=1.9,<2",
   "dbt-duckdb>=1.9",
-  "duckdb",
+  # MotherDuck lags DuckDB releases; 2.0 is not supported yet (latest supported: 1.5.x).
+  "duckdb>=1.5,<1.6",
 ]
