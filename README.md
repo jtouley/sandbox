@@ -41,6 +41,7 @@ Each folder represents a level of increasing rigor: exploratory notebooks for id
 | **Prefect** | Explore declarative orchestration, flow design, and retry semantics. |
 | **Pulumi** | Strengthen infrastructure-as-code fundamentals and environment reproducibility. |
 | **Python / DuckDB** | Prototype efficient local pipelines for testing ideas quickly. |
+| **dbt / MotherDuck** | Model data with dbt on DuckDB, run it in MotherDuck, and build Dives on top ([`labs/day06_halloween_candy_dbt`](labs/day06_halloween_candy_dbt/README.md)). |
 
 ---
 

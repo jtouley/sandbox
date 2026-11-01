@@ -27,6 +27,19 @@ seeds/candy_attributes.csv ► stg_candy_attributes ┘
 
 ---
 
+## Recreate it from scratch (checklist)
+
+1. **Local build:** install [uv](https://docs.astral.sh/uv/), clone this repo, then
+   `cd labs/day06_halloween_candy_dbt && make setup && make build` ([step 1](#1-run-it-locally-first-no-account-needed)).
+2. **MotherDuck:** create a free account and an access token, export `MOTHERDUCK_TOKEN`,
+   create the `halloween_candy` database, then `make build-md` ([step 2](#2-set-up-motherduck)).
+3. **The Dive:** publish `dive/halloween_haul_dive.tsx` as a Dive ([recreating the Dive](#recreating-the-dive)).
+4. **Your own haul (optional):** see [Use your own candy](#use-your-own-candy).
+
+If anything fails, check [Troubleshooting](#troubleshooting).
+
+---
+
 ## 1. Run it locally first (no account needed)
 
 Requires [uv](https://docs.astral.sh/uv/). This lab has **its own** Python 3.12 environment,
@@ -134,6 +147,55 @@ a setting or a candy's `trade_value` and run `make build-md` again, refresh the 
 pictures and colors live in the `CANDY` map at the top of that file. A new candy without
 an entry there shows up as 🍬.
 
+#### Recreating the Dive
+
+A Dive is one React file saved into your MotherDuck account. It reads the database aliased
+`halloween_candy` (see `REQUIRED_DATABASES` at the top of the file), so build the tables into a
+database with that name first (`make build-md`).
+
+**Option A: ask Claude (what we did).** Connect the MotherDuck connector to Claude (claude.ai
+or Claude Code), then ask:
+
+> Save `labs/day06_halloween_candy_dbt/dive/halloween_haul_dive.tsx` as a MotherDuck Dive
+> titled "Ari's Spooky Candy Treasure 🎃".
+
+Claude uses the connector's `save_dive` tool and replies with the Dive's link. To change it
+later, edit the file and ask Claude to update the Dive (`update_dive`).
+
+**Option B: SQL, no AI needed.** MotherDuck has a SQL function for this,
+[`MD_CREATE_DIVE`](https://motherduck.com/docs/sql-reference/motherduck-sql-reference/dives/md-create-dive/).
+With `MOTHERDUCK_TOKEN` set:
+
+```bash
+uv run python - <<'PY'
+import duckdb, pathlib
+src = pathlib.Path("dive/halloween_haul_dive.tsx").read_text()
+con = duckdb.connect("md:")
+print(con.execute(
+    """SELECT * FROM MD_CREATE_DIVE(
+         title := ?, content := ?,
+         required_resources := [{'url': 'md:halloween_candy', 'alias': 'halloween_candy'}])""",
+    ["Ari's Spooky Candy Treasure 🎃", src],
+).fetchall())
+PY
+```
+
+Later changes go through
+[`MD_UPDATE_DIVE_CONTENT`](https://motherduck.com/docs/sql-reference/motherduck-sql-reference/dives/md-update-dive-content/)
+with the Dive's `id`. Each update saves a new version.
+
+#### Who can see it?
+
+- **People in your MotherDuck organization** can open the Dive link. To let them see the data
+  too, share the `halloween_candy` database with the organization (in the MotherDuck UI, or ask
+  Claude to share the Dive's data).
+- **People without a MotherDuck account** can't open a Dive link. The official route is
+  [embedding the Dive in your own website](https://motherduck.com/docs/key-tasks/dives/embedding-dives/),
+  which needs the Business plan and a small backend that creates 24-hour viewing sessions.
+  For family, a static copy of the page is simpler.
+
+Dives come with every MotherDuck plan at no extra charge.
+
 ## 4. Knobs to play with
 
 Change project variables at build time without editing SQL:
@@ -157,6 +219,27 @@ Other ideas:
 - `make docs` opens dbt's docs site with the lineage graph.
 
 ---
+
+## Use your own candy
+
+1. Replace `seeds/raw_candy_haul.csv` with your list (`candy_name,total_count`).
+2. Add a row to `seeds/candy_attributes.csv` for every new `candy_name`. If one is missing, the
+   `not_null` test on `int_candy_enriched.display_name` fails and names it.
+3. Change `trick_or_treater` / `halloween_year` in `dbt_project.yml` (or pass `--vars`).
+4. Run `make build-md`.
+5. In `dive/halloween_haul_dive.tsx`, give each new candy a picture and color in the `CANDY` map
+   (keyed by `candy_name`) and add its `display_name` to `DISPLAY_TO_RAW`. Unknown candies show
+   as 🍬. Also swap "Ari" for your trick-or-treater's name in the text, then update the Dive.
+
+## Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| `Your DuckDB version (v2.x) is not yet supported by MotherDuck` | MotherDuck trails DuckDB releases. `pyproject.toml` pins `duckdb<1.6`; run `uv sync` so the pin applies. |
+| dbt opens a browser login / "no token provided" | `MOTHERDUCK_TOKEN` isn't set in this shell. Check with `echo ${MOTHERDUCK_TOKEN:+set}`. In a cloud session, add it as an environment variable and start a new session. |
+| An error saying the `halloween_candy` database or catalog doesn't exist | Create the database first ([step 2.4](#2-set-up-motherduck)). |
+| Local build fails opening `halloween_candy.duckdb` after changing DuckDB versions | The file was written by a different DuckDB version. `make clean && make build`. |
+| A Dive section shows "Oops, a spider got in the wires" | That section's query failed. The message underneath is the MotherDuck error; usually the tables haven't been built yet. |
 
 ## Project layout
 
