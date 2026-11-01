@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: stg_candy_haul
+    description: "One row per candy type from the haul sheet, names trimmed."
+    columns:
+      - name: candy_name
+        tests: [unique, not_null]
+      - name: piece_count
+        tests:
+          - not_null
+          - positive
+
+  - name: stg_candy_attributes
+    description: "Hand-curated lookup: category, allergens, and *estimated* fun-size nutrition per piece."
+    columns:
+      - name: candy_name
+        tests:
+          - unique
+          - not_null
+      - name: is_candy
+        tests: [not_null]
+      - name: has_chocolate
+        tests: [not_null]
+      - name: has_peanuts
+        tests: [not_null]
+      - name: has_tree_nuts
+        tests: [not_null]
+      - name: category
+        tests:
+          - accepted_values:
+              arguments:
+                values: [chocolate, fruity, gummy, sour, hard_candy, gum, snack, non_candy]
+      - name: trade_value
+        description: "1 (dud) to 5 (top-tier trade bait). Subjective: edit to match the trick-or-treater's opinion."
+        tests:
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4, 5]
+                quote: false

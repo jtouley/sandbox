@@ -1,0 +1,35 @@
+candy_name,display_name,manufacturer,category,texture,is_candy,has_chocolate,has_peanuts,has_tree_nuts,est_sugar_g_per_piece,est_calories_per_piece,trade_value
+Skittles,Skittles,Mars,fruity,chewy,true,false,false,false,11,60,3
+Haribo,Haribo Gummies,Haribo,gummy,gummy,true,false,false,false,13,60,3
+Twix,Twix,Mars,chocolate,crunchy,true,true,false,false,8,80,4
+Playdoh,Play-Doh,Hasbro,non_candy,squishy,false,false,false,false,0,0,2
+Bubble,Bubble Gum,Unknown,gum,chewy,true,false,false,false,2,10,2
+Hershey's,Hershey's Bar,Hershey,chocolate,smooth,true,true,false,false,8,70,3
+Airheads,Airheads,Perfetti Van Melle,fruity,chewy,true,false,false,false,7,30,3
+Snickers,Snickers,Mars,chocolate,chewy,true,true,true,false,9,80,4
+Milky Way,Milky Way,Mars,chocolate,chewy,true,true,false,false,10,75,3
+Reese's,Reese's Peanut Butter Cup,Hershey,chocolate,smooth,true,true,true,false,9,110,5
+3 Musketeers,3 Musketeers,Mars,chocolate,fluffy,true,true,false,false,10,65,3
+Kinder,Kinder Chocolate,Ferrero,chocolate,smooth,true,true,false,false,6,55,4
+Butterfinger,Butterfinger,Ferrero,chocolate,crunchy,true,true,true,false,9,85,3
+M&M's Peanut,M&M's Peanut,Mars,chocolate,crunchy,true,true,true,false,9,90,4
+M&M's Chocolate,M&M's Milk Chocolate,Mars,chocolate,crunchy,true,true,false,false,10,73,4
+Almond Joy,Almond Joy,Hershey,chocolate,chewy,true,true,false,true,8,80,2
+Twizzlers,Twizzlers,Hershey,fruity,chewy,true,false,false,false,8,40,2
+KitKat,KitKat,Hershey,chocolate,crunchy,true,true,false,false,7,70,5
+Suckers,Lollipop,Unknown,hard_candy,hard,true,false,false,false,5,25,2
+Chips,Potato Chips,Unknown,non_candy,crunchy,false,false,false,false,0,100,3
+Rice Crispy,Rice Krispies Treat,Kellogg's,snack,chewy,true,false,false,false,8,90,3
+Starbursts,Starburst,Mars,fruity,chewy,true,false,false,false,5,20,4
+Jolly Ranchers Gu,Jolly Rancher Gummies,Hershey,gummy,gummy,true,false,false,false,11,50,3
+Nerds Gummy,Nerds Gummy Clusters,Ferrara,gummy,crunchy,true,false,false,false,11,60,4
+Sour Patch Kids,Sour Patch Kids,Mondelez,sour,gummy,true,false,false,false,10,50,4
+Warheads,Warheads,Impact Confections,sour,hard,true,false,false,false,3,10,3
+Sweettarts,SweeTarts,Ferrara,sour,crunchy,true,false,false,false,6,25,2
+Smarties,Smarties,Smarties Candy Co,hard_candy,crunchy,true,false,false,false,6,25,1
+Milk Duds,Milk Duds,Hershey,chocolate,chewy,true,true,false,false,9,60,2
+Hard Candies,Assorted Hard Candy,Unknown,hard_candy,hard,true,false,false,false,4,20,1
+Granola Bars,Granola Bar,Unknown,snack,crunchy,false,false,false,false,7,100,1
+Life Saver Gummie,Life Savers Gummies,Mars,gummy,gummy,true,false,false,false,11,50,3
+Tootsie Rolls,Tootsie Roll,Tootsie Roll Industries,chocolate,chewy,true,true,false,false,3,25,1
+Sour Strip,Sour Strips,Unknown,sour,chewy,true,false,false,false,10,50,3

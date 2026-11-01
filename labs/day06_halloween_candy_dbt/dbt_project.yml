@@ -1,0 +1,48 @@
+name: halloween_candy
+version: "1.0.0"
+config-version: 2
+profile: halloween_candy
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+
+clean-targets: ["target", "dbt_packages"]
+
+vars:
+  # Knobs to play with: `dbt build --vars '{parent_tax_pct: 0.25}'`
+  trick_or_treater: "Ari"
+  halloween_year: 2026
+  parent_tax_pct: 0.10        # share of each chocolate the parents "inspect"
+  daily_piece_limit: 3        # pieces allowed per day, for the "how long will it last" model
+
+seeds:
+  halloween_candy:
+    +schema: raw
+    raw_candy_haul:
+      +column_types:
+        candy_name: varchar
+        total_count: integer
+    candy_attributes:
+      +column_types:
+        is_candy: boolean
+        has_chocolate: boolean
+        has_peanuts: boolean
+        has_tree_nuts: boolean
+        est_sugar_g_per_piece: double
+        est_calories_per_piece: double
+        trade_value: integer
+
+models:
+  halloween_candy:
+    staging:
+      +materialized: view
+      +schema: staging
+    intermediate:
+      +materialized: view
+      +schema: intermediate
+    marts:
+      +materialized: table
+      +schema: marts

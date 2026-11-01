@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: fct_candy_haul
+    description: "One row per candy type with counts, estimates, ranks and trade points. Start here."
+    columns:
+      - name: candy_name
+        tests: [unique, not_null]
+      - name: pieces_kept
+        tests: [not_null]
+  - name: mart_haul_summary
+    description: "Single-row KPI summary of the haul."
+  - name: mart_category_summary
+    description: "Pieces and share of haul by candy category."
+    columns:
+      - name: category
+        tests: [unique, not_null]
+  - name: mart_manufacturer_summary
+    description: "Market share by candy maker."
+    columns:
+      - name: manufacturer
+        tests: [unique, not_null]
+  - name: mart_allergen_report
+    description: "Nut exposure grouping, for sharing with friends."
+  - name: mart_candy_rationing
+    description: "Eating schedule: best candy first, `daily_piece_limit` pieces per day."
+    columns:
+      - name: eat_order
+        tests: [unique, not_null]
+      - name: day_number
+        tests: [not_null]
