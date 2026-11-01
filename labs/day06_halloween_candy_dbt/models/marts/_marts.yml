@@ -27,3 +27,5 @@ models:
     columns:
       - name: eat_order
         tests: [unique, not_null]
+      - name: day_number
+        tests: [not_null]

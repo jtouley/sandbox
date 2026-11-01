@@ -251,7 +251,7 @@ function NightSky() {
 
 function Header() {
 	const q = useSQLQuery(`
-    SELECT total_pieces, candy_types, most_common_candy
+    SELECT total_pieces
     FROM "halloween_candy"."marts"."mart_haul_summary"
   `);
 	const r = rowsOf(q)[0];
@@ -845,7 +845,13 @@ export default function SpookyCandyTreasure() {
 					) : tab === 'race' ? (
 						<>
 							<CandyRace haul={haul} />
-							{catQ.isError ? <Oops error={catQ.error} /> : <CategoryBuckets cats={rowsOf(catQ)} />}
+							{catQ.isLoading ? (
+								<Loading />
+							) : catQ.isError ? (
+								<Oops error={catQ.error} />
+							) : (
+								<CategoryBuckets cats={rowsOf(catQ)} />
+							)}
 						</>
 					) : tab === 'jar' ? (
 						<CandyJar />

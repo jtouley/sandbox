@@ -18,6 +18,14 @@ models:
         tests:
           - unique
           - not_null
+      - name: is_candy
+        tests: [not_null]
+      - name: has_chocolate
+        tests: [not_null]
+      - name: has_peanuts
+        tests: [not_null]
+      - name: has_tree_nuts
+        tests: [not_null]
       - name: category
         tests:
           - accepted_values:

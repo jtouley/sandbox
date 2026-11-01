@@ -1,4 +1,4 @@
-# 🎃 Ari's Halloween Candy Haul: dbt + MotherDuck
+# Ari's Halloween Candy Haul: dbt + MotherDuck
 
 A small dbt project that turns Ari's 2026 haul (129 pieces, 34 kinds) into tables you can chart,
 filter, and play with in [MotherDuck](https://motherduck.com), the cloud version of DuckDB.
@@ -6,9 +6,9 @@ filter, and play with in [MotherDuck](https://motherduck.com), the cloud version
 It runs **locally with no account** (a DuckDB file) and against **MotherDuck** with one flag.
 
 ```
-seeds/raw_candy_haul.csv ──► stg_candy_haul ──┐
-                                              ├─► int_candy_enriched ─► fct_candy_haul ─► mart_* tables
-seeds/candy_attributes.csv ► stg_candy_attributes ┘
+seeds/raw_candy_haul.csv   ─► stg_candy_haul       ─┐
+                                                    ├─► int_candy_enriched ─► fct_candy_haul ─► mart_*
+seeds/candy_attributes.csv ─► stg_candy_attributes ─┘
 ```
 
 | Layer | Model | What it's for |
@@ -48,7 +48,7 @@ because dbt doesn't support the repo-root Python 3.14 yet.
 ```bash
 cd labs/day06_halloween_candy_dbt
 make setup     # uv sync → .venv with dbt-core + dbt-duckdb
-make build     # seeds, models, and 22 tests → halloween_candy.duckdb
+make build     # seeds, models, and 28 tests → halloween_candy.duckdb
 ```
 
 Poke at the results:
@@ -90,10 +90,7 @@ uv run python -c "import duckdb; print(duckdb.connect('halloween_candy.duckdb').
    ```
 
    Refresh the MotherDuck UI and you'll see `halloween_candy` with `raw`, `staging`,
-   and `marts` schemas.
-
-If dbt can't find the token it opens a browser login instead. That works too, but the token is
-smoother.
+   `intermediate`, and `marts` schemas.
 
 ---
 
@@ -128,7 +125,7 @@ chocolate?"). It sees these tables.
 
 ---
 
-### The Dive 🎃
+### The Dive
 
 [Ari's Spooky Candy Treasure](https://app.motherduck.com/dives/aris-spooky-candy-treasure-8e692c4a-4224-40d7-b707-42185f73cbd6)
 is a MotherDuck Dive (an interactive page) made for a four-year-old: a night sky with
@@ -138,7 +135,7 @@ flying bats, big candy pictures, and things to tap.
 |---|---|
 | 🍬 Count my candy | Tap a candy and that many pop out one by one, numbered, so you can count together |
 | 🏆 Biggest piles | A candy race with medals, plus "candy buckets" by type |
-| 🫙 Candy jar | Slide the pumpkin day by day and watch the jar empty, 3 treats a day, with what Ari eats each day |
+| 🫙 Candy jar | Slide the pumpkin day by day and watch the jar empty (`daily_piece_limit` pieces a day), with what Ari eats each day. The "3 treats a day" text is fixed, so update it if you change the var |
 | 😋 Yummy or yucky | Candies on shelves from 😍 to 🤢 (uses `trade_value`) |
 | 🧑‍🍳 Grown-ups | The real numbers: parent tax, nut allergens, sugar estimate, candy makers |
 
@@ -192,16 +189,17 @@ with the Dive's `id`. Each update saves a new version.
 - **People without a MotherDuck account** can't open a Dive link. The official route is
   [embedding the Dive in your own website](https://motherduck.com/docs/key-tasks/dives/embedding-dives/),
   which needs the Business plan and a small backend that creates 24-hour viewing sessions.
-  For family, a static copy of the page is simpler.
 
 Dives come with every MotherDuck plan at no extra charge.
+
+---
 
 ## 4. Knobs to play with
 
 Change project variables at build time without editing SQL:
 
 ```bash
-# Parents get greedy: 25% chocolate tax, and Ari is allowed 5 pieces a day
+# 25% chocolate tax, 5 pieces a day
 uv run dbt build --profiles-dir . --vars '{parent_tax_pct: 0.25, daily_piece_limit: 5}'
 ```
 
@@ -214,8 +212,7 @@ uv run dbt build --profiles-dir . --vars '{parent_tax_pct: 0.25, daily_piece_lim
 Other ideas:
 - **Next year:** add a `year` column to the haul seed (or a second seed) and compare years.
 - **Siblings / friends:** add a `trick_or_treater` column and build a trading-market model.
-- **New candy:** add it to *both* CSVs. If you forget the attributes row, the `not_null`
-  test on `int_candy_enriched.display_name` fails and tells you.
+- **New candy:** see [Use your own candy](#use-your-own-candy).
 - `make docs` opens dbt's docs site with the lineage graph.
 
 ---
@@ -235,8 +232,8 @@ Other ideas:
 
 | Problem | Fix |
 |---|---|
-| `Your DuckDB version (v2.x) is not yet supported by MotherDuck` | MotherDuck trails DuckDB releases. `pyproject.toml` pins `duckdb<1.6`; run `uv sync` so the pin applies. |
-| dbt opens a browser login / "no token provided" | `MOTHERDUCK_TOKEN` isn't set in this shell. Check with `echo ${MOTHERDUCK_TOKEN:+set}`. In a cloud session, add it as an environment variable and start a new session. |
+| `Your DuckDB version (vX.Y) is not yet supported by MotherDuck` | MotherDuck supports DuckDB up to 1.5.x. Run `uv sync` so the `duckdb<1.6` pin in `pyproject.toml` applies. |
+| dbt opens a browser login / "no token provided" | `MOTHERDUCK_TOKEN` isn't set in this shell. Check with `echo ${MOTHERDUCK_TOKEN:+set}`. In a Claude Code cloud session, add it as an environment variable and start a new session. |
 | An error saying the `halloween_candy` database or catalog doesn't exist | Create the database first ([step 2.4](#2-set-up-motherduck)). |
 | Local build fails opening `halloween_candy.duckdb` after changing DuckDB versions | The file was written by a different DuckDB version. `make clean && make build`. |
 | A Dive section shows "Oops, a spider got in the wires" | That section's query failed. The message underneath is the MotherDuck error; usually the tables haven't been built yet. |

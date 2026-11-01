@@ -1,4 +1,4 @@
--- Who won Halloween? Mars vs. Hershey vs. everyone else.
+-- Pieces and market share by manufacturer.
 select
     manufacturer,
     count(*)                                          as candy_types,

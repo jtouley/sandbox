@@ -10,7 +10,7 @@ halloween_candy:
       threads: 4
 
     # MotherDuck: reads MOTHERDUCK_TOKEN from your environment.
-    # Create the database once first (see README, step 4).
+    # Create the database once first (README: "2. Set up MotherDuck", step 4).
     md:
       type: duckdb
       path: "md:halloween_candy"

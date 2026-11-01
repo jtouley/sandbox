@@ -23,7 +23,7 @@ select
     haul.piece_count * attrs.est_sugar_g_per_piece   as est_total_sugar_g,
     haul.piece_count * attrs.est_calories_per_piece  as est_total_calories,
 
-    -- Parents only tax the chocolate. Obviously.
+    -- Parent tax applies to chocolate only.
     case
         when attrs.has_chocolate
             then round(haul.piece_count * {{ var('parent_tax_pct') }})::int
