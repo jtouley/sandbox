@@ -115,6 +115,20 @@ chocolate?"). It sees these tables.
 
 ---
 
+### The Dive
+
+[Ari's Halloween Haul 2026](https://app.motherduck.com/dives/aris-halloween-haul-2026-8e692c4a-4224-40d7-b707-42185f73cbd6)
+is a MotherDuck Dive (an interactive dashboard) over the marts, with three tabs:
+
+- **The haul:** top 10 candies, and a countdown of pieces left at 3 per day.
+- **Breakdown:** pieces by category, market share by maker, and nut allergens.
+- **Trading:** trade value vs. pieces, plus a "trade these first" list.
+
+Its source is `dive/halloween_haul_dive.tsx`. It queries the tables live, so after you
+change a setting and run `make build-md` again, refresh the Dive to see the new numbers.
+To change the Dive itself, edit that file and update the Dive in MotherDuck (or ask Claude
+to, using the MotherDuck connector).
+
 ## 4. Knobs to play with
 
 Change project variables at build time without editing SQL:
@@ -150,5 +164,6 @@ day06_halloween_candy_dbt/
 ├── models/{staging,intermediate,marts}/
 ├── macros/                # pct(), schema naming without target prefixes
 ├── tests/                 # positive-count generic test, "no pieces lost" check
+├── dive/                  # MotherDuck Dive source (React + Recharts)
 └── analyses/              # handy ad-hoc queries
 ```
