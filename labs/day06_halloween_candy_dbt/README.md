@@ -115,19 +115,24 @@ chocolate?"). It sees these tables.
 
 ---
 
-### The Dive
+### The Dive 🎃
 
-[Ari's Halloween Haul 2026](https://app.motherduck.com/dives/aris-halloween-haul-2026-8e692c4a-4224-40d7-b707-42185f73cbd6)
-is a MotherDuck Dive (an interactive dashboard) over the marts, with three tabs:
+[Ari's Spooky Candy Treasure](https://app.motherduck.com/dives/aris-spooky-candy-treasure-8e692c4a-4224-40d7-b707-42185f73cbd6)
+is a MotherDuck Dive (an interactive page) made for a four-year-old: a night sky with
+flying bats, big candy pictures, and things to tap.
 
-- **The haul:** top 10 candies, and a countdown of pieces left at 3 per day.
-- **Breakdown:** pieces by category, market share by maker, and nut allergens.
-- **Trading:** trade value vs. pieces, plus a "trade these first" list.
+| Tab | What happens |
+|---|---|
+| 🍬 Count my candy | Tap a candy and that many pop out one by one, numbered, so you can count together |
+| 🏆 Biggest piles | A candy race with medals, plus "candy buckets" by type |
+| 🫙 Candy jar | Slide the pumpkin day by day and watch the jar empty, 3 treats a day, with what Ari eats each day |
+| 😋 Yummy or yucky | Candies on shelves from 😍 to 🤢 (uses `trade_value`) |
+| 🧑‍🍳 Grown-ups | The real numbers: parent tax, nut allergens, sugar estimate, candy makers |
 
-Its source is `dive/halloween_haul_dive.tsx`. It queries the tables live, so after you
-change a setting and run `make build-md` again, refresh the Dive to see the new numbers.
-To change the Dive itself, edit that file and update the Dive in MotherDuck (or ask Claude
-to, using the MotherDuck connector).
+Its source is `dive/halloween_haul_dive.tsx`. It queries the tables live, so after you change
+a setting or a candy's `trade_value` and run `make build-md` again, refresh the Dive. Candy
+pictures and colors live in the `CANDY` map at the top of that file. A new candy without
+an entry there shows up as 🍬.
 
 ## 4. Knobs to play with
 
