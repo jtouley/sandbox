@@ -1,10 +1,15 @@
 import { useSQLQuery, useDiveState } from '@motherduck/react-sql-query';
 
-// Saved to MotherDuck as the "Ari's Spooky Candy Treasure" Dive.
-// Reads the marts built by this dbt project (`make build-md`).
+// Saved to MotherDuck as the "Spooky Candy Treasure" Dive.
+// Reads the marts built by this dbt project (`make build-md`) through a read-only share,
+// so people outside the owner's account can view it.
 // Built for a (nearly) four-year-old: big pictures, things to tap, counting games.
 export const REQUIRED_DATABASES = [
-	{ type: 'database', path: 'md:halloween_candy', alias: 'halloween_candy' },
+	{
+		type: 'share',
+		path: 'md:_share/halloween_candy_share/b6e1a56b-e166-4961-bb40-9dbf5e7916cc',
+		alias: 'halloween_candy',
+	},
 ];
 
 const N = (value: unknown): number => (value == null ? 0 : Number(value));
@@ -134,23 +139,23 @@ const TABS: { key: Tab; e: string; label: string }[] = [
 ];
 
 const CSS = `
-@keyframes ari-float { 0%,100% { transform: translateY(0) rotate(-4deg) } 50% { transform: translateY(-14px) rotate(4deg) } }
-@keyframes ari-fly { 0% { transform: translateX(-80px) translateY(0) } 25% { transform: translateX(25vw) translateY(-18px) } 50% { transform: translateX(50vw) translateY(8px) } 75% { transform: translateX(75vw) translateY(-12px) } 100% { transform: translateX(110vw) translateY(0) } }
-@keyframes ari-wiggle { 0%,100% { transform: rotate(0) scale(1) } 25% { transform: rotate(-8deg) scale(1.08) } 75% { transform: rotate(8deg) scale(1.08) } }
-@keyframes ari-pop { 0% { transform: scale(0) rotate(-30deg); opacity: 0 } 70% { transform: scale(1.25) rotate(8deg); opacity: 1 } 100% { transform: scale(1) rotate(0); opacity: 1 } }
-@keyframes ari-grow { from { transform: scaleX(0) } to { transform: scaleX(1) } }
-@keyframes ari-twinkle { 0%,100% { opacity: .25 } 50% { opacity: 1 } }
-@keyframes ari-glow { 0%,100% { text-shadow: 0 0 10px #ff7a00, 0 0 24px #ff7a0088 } 50% { text-shadow: 0 0 18px #ffb347, 0 0 40px #ff7a00cc } }
-.ari-float { animation: ari-float 3.2s ease-in-out infinite }
-.ari-fly { position: absolute; animation: ari-fly linear infinite; pointer-events: none }
-.ari-tile { transition: transform .15s ease }
-.ari-tile:hover { animation: ari-wiggle .5s ease-in-out }
-.ari-tile:active { transform: scale(.92) }
-.ari-pop { animation: ari-pop .45s cubic-bezier(.2,1.4,.4,1) both }
-.ari-grow { transform-origin: left center; animation: ari-grow 1s cubic-bezier(.2,1,.3,1) both }
-.ari-twinkle { animation: ari-twinkle 2.4s ease-in-out infinite }
-.ari-glow { animation: ari-glow 2.5s ease-in-out infinite }
-.ari-slider { width: 100%; accent-color: #ff7a00; height: 28px; cursor: pointer }
+@keyframes spk-float { 0%,100% { transform: translateY(0) rotate(-4deg) } 50% { transform: translateY(-14px) rotate(4deg) } }
+@keyframes spk-fly { 0% { transform: translateX(-80px) translateY(0) } 25% { transform: translateX(25vw) translateY(-18px) } 50% { transform: translateX(50vw) translateY(8px) } 75% { transform: translateX(75vw) translateY(-12px) } 100% { transform: translateX(110vw) translateY(0) } }
+@keyframes spk-wiggle { 0%,100% { transform: rotate(0) scale(1) } 25% { transform: rotate(-8deg) scale(1.08) } 75% { transform: rotate(8deg) scale(1.08) } }
+@keyframes spk-pop { 0% { transform: scale(0) rotate(-30deg); opacity: 0 } 70% { transform: scale(1.25) rotate(8deg); opacity: 1 } 100% { transform: scale(1) rotate(0); opacity: 1 } }
+@keyframes spk-grow { from { transform: scaleX(0) } to { transform: scaleX(1) } }
+@keyframes spk-twinkle { 0%,100% { opacity: .25 } 50% { opacity: 1 } }
+@keyframes spk-glow { 0%,100% { text-shadow: 0 0 10px #ff7a00, 0 0 24px #ff7a0088 } 50% { text-shadow: 0 0 18px #ffb347, 0 0 40px #ff7a00cc } }
+.spk-float { animation: spk-float 3.2s ease-in-out infinite }
+.spk-fly { position: absolute; animation: spk-fly linear infinite; pointer-events: none }
+.spk-tile { transition: transform .15s ease }
+.spk-tile:hover { animation: spk-wiggle .5s ease-in-out }
+.spk-tile:active { transform: scale(.92) }
+.spk-pop { animation: spk-pop .45s cubic-bezier(.2,1.4,.4,1) both }
+.spk-grow { transform-origin: left center; animation: spk-grow 1s cubic-bezier(.2,1,.3,1) both }
+.spk-twinkle { animation: spk-twinkle 2.4s ease-in-out infinite }
+.spk-glow { animation: spk-glow 2.5s ease-in-out infinite }
+.spk-slider { width: 100%; accent-color: #ff7a00; height: 28px; cursor: pointer }
 `;
 
 // ── Little shared bits ────────────────────────────────────────────────
@@ -158,7 +163,7 @@ const CSS = `
 function Loading() {
 	return (
 		<div className="flex items-center justify-center gap-3 py-12 text-3xl" style={{ color: C.dim }}>
-			<span className="ari-float">👻</span>
+			<span className="spk-float">👻</span>
 			<span className="text-lg">Ghosts are fetching the candy…</span>
 		</div>
 	);
@@ -186,7 +191,7 @@ function BigButton({
 	return (
 		<button
 			onClick={onClick}
-			className="ari-tile whitespace-nowrap rounded-2xl px-4 py-2 text-base font-bold"
+			className="spk-tile whitespace-nowrap rounded-2xl px-4 py-2 text-base font-bold"
 			style={{
 				cursor: 'pointer',
 				fontFamily: FONT,
@@ -212,7 +217,7 @@ function NightSky() {
 			{stars.map(([x, y], i) => (
 				<span
 					key={i}
-					className="ari-twinkle"
+					className="spk-twinkle"
 					style={{
 						position: 'absolute',
 						left: `${x}%`,
@@ -237,9 +242,9 @@ function NightSky() {
 					boxShadow: '0 0 60px #fff4c2aa',
 				}}
 			/>
-			<span className="ari-fly" style={{ top: 40, fontSize: 28, animationDuration: '14s' }}>🦇</span>
-			<span className="ari-fly" style={{ top: 110, fontSize: 20, animationDuration: '19s', animationDelay: '-7s' }}>🦇</span>
-			<span className="ari-fly" style={{ top: 70, fontSize: 16, animationDuration: '23s', animationDelay: '-15s' }}>🦇</span>
+			<span className="spk-fly" style={{ top: 40, fontSize: 28, animationDuration: '14s' }}>🦇</span>
+			<span className="spk-fly" style={{ top: 110, fontSize: 20, animationDuration: '19s', animationDelay: '-7s' }}>🦇</span>
+			<span className="spk-fly" style={{ top: 70, fontSize: 16, animationDuration: '23s', animationDelay: '-15s' }}>🦇</span>
 			<span style={{ position: 'absolute', left: -6, top: -6, fontSize: 64, opacity: 0.35 }}>🕸️</span>
 			<span style={{ position: 'absolute', left: 4, bottom: 0, fontSize: 44 }}>🎃</span>
 			<span style={{ position: 'absolute', right: 6, bottom: 0, fontSize: 36 }}>🎃</span>
@@ -261,11 +266,11 @@ function Header() {
 			<p className="text-sm font-bold tracking-widest" style={{ color: C.pumpkin }}>
 				✨ HALLOWEEN 2026 ✨
 			</p>
-			<h1 className="ari-glow text-4xl font-black" style={{ color: C.white, lineHeight: 1.15 }}>
-				Ari's Spooky Candy Treasure!
+			<h1 className="spk-glow text-4xl font-black" style={{ color: C.white, lineHeight: 1.15 }}>
+				Spooky Candy Treasure!
 			</h1>
 			<div className="mt-3 flex items-center justify-center gap-4">
-				<span className="ari-float text-5xl">👻</span>
+				<span className="spk-float text-5xl">👻</span>
 				{q.isLoading ? (
 					<div className="h-16 w-40 animate-pulse rounded-2xl" style={{ background: '#ffffff22' }} />
 				) : q.isError ? (
@@ -280,7 +285,7 @@ function Header() {
 						</p>
 					</div>
 				)}
-				<span className="ari-float text-5xl" style={{ animationDelay: '-1.6s' }}>
+				<span className="spk-float text-5xl" style={{ animationDelay: '-1.6s' }}>
 					🧛
 				</span>
 			</div>
@@ -319,7 +324,7 @@ function CountMyCandy({ haul }: { haul: any[] }) {
 						<button
 							key={raw}
 							onClick={() => setPicked(raw)}
-							className="ari-tile relative flex flex-col items-center rounded-2xl p-2"
+							className="spk-tile relative flex flex-col items-center rounded-2xl p-2"
 							style={{
 								cursor: 'pointer',
 								fontFamily: FONT,
@@ -393,7 +398,7 @@ function CountingStage({
 			</div>
 			<div className="my-3 flex flex-wrap justify-center gap-2">
 				{Array.from({ length: count }, (_, i) => (
-					<div key={i} className="ari-pop flex flex-col items-center" style={{ animationDelay: `${i * step}s` }}>
+					<div key={i} className="spk-pop flex flex-col items-center" style={{ animationDelay: `${i * step}s` }}>
 						<span style={{ fontSize: 44, lineHeight: 1 }}>{p.e}</span>
 						<span className="text-lg font-black" style={{ color: C.pumpkin }}>
 							{i + 1}
@@ -402,7 +407,7 @@ function CountingStage({
 				))}
 			</div>
 			<p
-				className="ari-pop text-3xl font-black"
+				className="spk-pop text-3xl font-black"
 				style={{ color: C.slime, animationDelay: `${count * step + 0.2}s` }}
 			>
 				{count}! {cheer}
@@ -437,7 +442,7 @@ function CandyRace({ haul }: { haul: any[] }) {
 								{String(r.display_name)}
 							</span>
 							<div
-								className="ari-grow flex items-center rounded-full px-2"
+								className="spk-grow flex items-center rounded-full px-2"
 								style={{
 									width: `${Math.max(12, (n / max) * 100)}%`,
 									maxWidth: 'calc(100% - 200px)',
@@ -480,7 +485,7 @@ function CategoryBuckets({ cats }: { cats: any[] }) {
 					return (
 						<div
 							key={key}
-							className="ari-tile rounded-2xl p-2 text-center"
+							className="spk-tile rounded-2xl p-2 text-center"
 							style={{ background: '#ffffff12', border: '2px solid #ffffff22' }}
 						>
 							<div style={{ fontSize: 34 }}>{meta.e}</div>
@@ -527,7 +532,7 @@ function CandyJar() {
 	return (
 		<div>
 			<p className="mb-1 text-center text-lg font-bold" style={{ color: C.white }}>
-				Ari gets <span style={{ color: C.pumpkin }}>3 treats a day</span>. Slide the pumpkin! 🎃
+				One bucket, <span style={{ color: C.pumpkin }}>3 treats a day</span>. Slide the pumpkin! 🎃
 			</p>
 			<p className="mb-3 text-center text-sm" style={{ color: C.dim }}>
 				(After the grown-ups take their spooky chocolate tax 👻)
@@ -537,7 +542,7 @@ function CandyJar() {
 				<BigButton onClick={() => setDay(Math.max(0, d - 1))}>◀ 🌙</BigButton>
 				<input
 					aria-label="Day"
-					className="ari-slider"
+					className="spk-slider"
 					type="range"
 					min={0}
 					max={lastDay}
@@ -612,11 +617,11 @@ function CandyJar() {
 					) : (
 						<>
 							<p className="mt-3 text-sm font-bold" style={{ color: C.slime }}>
-								Today Ari eats:
+								Today's treats:
 							</p>
 							<div className="mt-2 flex flex-col gap-2">
 								{today.map((p, i) => (
-									<div key={p.order} className="ari-pop flex items-center gap-2" style={{ animationDelay: `${i * 0.15}s` }}>
+									<div key={p.order} className="spk-pop flex items-center gap-2" style={{ animationDelay: `${i * 0.15}s` }}>
 										<span style={{ fontSize: 34 }}>{picByDisplay(p.name).e}</span>
 										<span className="text-left text-sm font-bold" style={{ color: C.white }}>
 											{p.name}
@@ -669,7 +674,7 @@ function YummyOrYucky({ haul }: { haul: any[] }) {
 										<span
 											key={raw}
 											title={`${String(r.display_name)}: ${N(r.piece_count)}`}
-											className="ari-tile flex items-center gap-1 rounded-full px-2 py-1 text-xs font-bold"
+											className="spk-tile flex items-center gap-1 rounded-full px-2 py-1 text-xs font-bold"
 											style={{ background: p.bg, color: '#fff', textShadow: '0 1px 2px #0008' }}
 										>
 											<span style={{ fontSize: 20 }}>{p.e}</span>
@@ -686,7 +691,7 @@ function YummyOrYucky({ haul }: { haul: any[] }) {
 				})}
 			</div>
 			<p className="mt-3 text-center text-xs" style={{ color: C.dim }}>
-				Yumminess is a grown-up guess. Ari gets the final say! 👑
+				Yumminess is a grown-up guess. The trick-or-treater gets the final say! 👑
 			</p>
 		</div>
 	);
@@ -863,7 +868,7 @@ export default function SpookyCandyTreasure() {
 				</section>
 
 				<p className="mt-4 text-center text-xs" style={{ color: C.dim }}>
-					Happy Halloween, Ari! 🎃 Love, the candy ghosts 👻
+					Happy Halloween! 🎃 Love, the candy ghosts 👻
 				</p>
 			</div>
 		</main>

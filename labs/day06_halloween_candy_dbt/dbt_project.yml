@@ -13,7 +13,7 @@ clean-targets: ["target", "dbt_packages"]
 
 vars:
   # Knobs to play with: `dbt build --vars '{parent_tax_pct: 0.25}'`
-  trick_or_treater: "Ari"
+  trick_or_treater: "Trick-or-treater"
   halloween_year: 2026
   parent_tax_pct: 0.10        # share of each chocolate the parents "inspect"
   daily_piece_limit: 3        # pieces allowed per day, for the "how long will it last" model

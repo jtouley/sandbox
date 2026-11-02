@@ -1,6 +1,6 @@
-# Ari's Halloween Candy Haul: dbt + MotherDuck
+# Halloween Candy Haul: dbt + MotherDuck
 
-A small dbt project that turns Ari's 2026 haul (129 pieces, 34 kinds) into tables you can chart,
+A small dbt project that turns my son's 2026 Halloween haul (129 pieces, 34 kinds) into tables you can chart,
 filter, and play with in [MotherDuck](https://motherduck.com), the cloud version of DuckDB.
 
 It runs **locally with no account** (a DuckDB file) and against **MotherDuck** with one flag.
@@ -23,7 +23,7 @@ seeds/candy_attributes.csv ─► stg_candy_attributes ─┘
 | mart | `mart_candy_rationing` | Eats the best candy first at N pieces/day: what day does it run out? |
 
 > Nutrition numbers and `trade_value` are rough guesses, not label data. Edit
-> `seeds/candy_attributes.csv`; deciding the trade values is a good job for Ari.
+> `seeds/candy_attributes.csv`; deciding the trade values is a good job for the trick-or-treater.
 
 ---
 
@@ -127,7 +127,7 @@ chocolate?"). It sees these tables.
 
 ### The Dive
 
-[Ari's Spooky Candy Treasure](https://app.motherduck.com/dives/aris-spooky-candy-treasure-8e692c4a-4224-40d7-b707-42185f73cbd6)
+[Spooky Candy Treasure](https://app.motherduck.com/dives/spooky-candy-treasure-8e692c4a-4224-40d7-b707-42185f73cbd6)
 is a MotherDuck Dive (an interactive page) made for a four-year-old: a night sky with
 flying bats, big candy pictures, and things to tap.
 
@@ -135,7 +135,7 @@ flying bats, big candy pictures, and things to tap.
 |---|---|
 | 🍬 Count my candy | Tap a candy and that many pop out one by one, numbered, so you can count together |
 | 🏆 Biggest piles | A candy race with medals, plus "candy buckets" by type |
-| 🫙 Candy jar | Slide the pumpkin day by day and watch the jar empty (`daily_piece_limit` pieces a day), with what Ari eats each day. The "3 treats a day" text is fixed, so update it if you change the var |
+| 🫙 Candy jar | Slide the pumpkin day by day and watch the jar empty (`daily_piece_limit` pieces a day), with what gets eaten each day. The "3 treats a day" text is fixed, so update it if you change the var |
 | 😋 Yummy or yucky | Candies on shelves from 😍 to 🤢 (uses `trade_value`) |
 | 🧑‍🍳 Grown-ups | The real numbers: parent tax, nut allergens, sugar estimate, candy makers |
 
@@ -154,7 +154,7 @@ database with that name first (`make build-md`).
 or Claude Code), then ask:
 
 > Save `labs/day06_halloween_candy_dbt/dive/halloween_haul_dive.tsx` as a MotherDuck Dive
-> titled "Ari's Spooky Candy Treasure 🎃".
+> titled "Spooky Candy Treasure".
 
 Claude uses the connector's `save_dive` tool and replies with the Dive's link. To change it
 later, edit the file and ask Claude to update the Dive (`update_dive`).
@@ -172,7 +172,7 @@ print(con.execute(
     """SELECT * FROM MD_CREATE_DIVE(
          title := ?, content := ?,
          required_resources := [{'url': 'md:halloween_candy', 'alias': 'halloween_candy'}])""",
-    ["Ari's Spooky Candy Treasure 🎃", src],
+    ["Spooky Candy Treasure", src],
 ).fetchall())
 PY
 ```
@@ -207,7 +207,7 @@ uv run dbt build --profiles-dir . --vars '{parent_tax_pct: 0.25, daily_piece_lim
 |---|---|---|
 | `parent_tax_pct` | `0.10` | `parent_tax_pieces` / `pieces_kept` (chocolate only, rounded per candy) |
 | `daily_piece_limit` | `3` | How many days `mart_candy_rationing` lasts |
-| `trick_or_treater`, `halloween_year` | `Ari`, `2026` | Labels and dates |
+| `trick_or_treater`, `halloween_year` | `Trick-or-treater`, `2026` | Labels and dates |
 
 Other ideas:
 - **Next year:** add a `year` column to the haul seed (or a second seed) and compare years.
@@ -226,7 +226,7 @@ Other ideas:
 4. Run `make build-md`.
 5. In `dive/halloween_haul_dive.tsx`, give each new candy a picture and color in the `CANDY` map
    (keyed by `candy_name`) and add its `display_name` to `DISPLAY_TO_RAW`. Unknown candies show
-   as 🍬. Also swap "Ari" for your trick-or-treater's name in the text, then update the Dive.
+   as 🍬. Put your trick-or-treater's name in the Dive's text if you want it there, then update the Dive.
 
 ## Troubleshooting
 
