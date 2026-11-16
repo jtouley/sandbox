@@ -1,0 +1,92 @@
+
+==============================================================================
+E1  ACCESS CONTROL - policy lives in the catalog, not in the files
+==============================================================================
+Governed view as analyst_west : rows=6 sample email=***MASKED***
+Path reader (Fabric shortcut) : rows=12 regions=2 sample email=c105@example.com
+_delta_log action types       : ['add', 'commitInfo', 'metaData', 'protocol']
+table configuration           : {}
+RESULT E1: governed=6 rows/masked, path-reader=12 rows/unmasked; no policy action in the Delta log -> enforcement must be rebuilt in Fabric
+
+==============================================================================
+E2  LOGIC OWNERSHIP - one conformance rule, two SQL dialects
+==============================================================================
+--- Databricks SQL (source of truth)
+SELECT customer_key,
+  concat(first_name, ' ', middle_name, ' ', last_name)            AS full_name,
+  units / packs                                                    AS units_per_pack,
+  months_between(DATE'2025-03-01', DATE'2025-01-31')               AS tenure_months,
+  CASE WHEN tier = 'gold' THEN 1 ELSE 0 END                        AS is_gold
+FROM silver.customer
+--- sqlglot -> Fabric T-SQL
+SELECT
+  customer_key,
+  first_name + ' ' + middle_name + ' ' + last_name AS full_name,
+  CAST(units AS FLOAT) / packs AS units_per_pack,
+  MONTHS_BETWEEN(CAST('2025-03-01' AS DATE), CAST('2025-01-31' AS DATE)) AS tenure_months,
+  CASE WHEN tier = 'gold' THEN 1 ELSE 0 END AS is_gold
+FROM silver.customer
+--- sqlglot round trip back to Databricks
+SELECT
+  customer_key,
+  first_name + ' ' + middle_name + ' ' + last_name AS full_name,
+  CAST(units AS FLOAT) / packs AS units_per_pack,
+  MONTHS_BETWEEN(CAST('2025-03-01' AS DATE), CAST('2025-01-31' AS DATE)) AS tenure_months,
+  CASE WHEN tier = 'gold' THEN 1 ELSE 0 END AS is_gold
+FROM silver.customer
+Databricks semantics : [(1, None, 3.5, 1), (2, 'Bo J Kim', 2.25, 0)]
+T-SQL semantics      : [(1, 'Ann  Lee', 3, 1), (2, 'Bo J Kim', 2, 1)]
+RESULT E2: same rule, 4 of 8 cells differ across dialect semantics
+
+==============================================================================
+E3  CHANGE CONTROL - auto-sync passes breaking changes; a contract gate stops them
+==============================================================================
+ODCS v3.1.0 contract validates against the official Bitol JSON schema
+v0 contract gate: PASS | semantic model unbound columns: none
+v1 contract gate (CI, pre-commit): ['customer_key type string != integer', 'missing column region', 'missing column amount']
+after commit, mirror serves version 1; semantic model unbound columns: ['amount', 'region']
+RESULT E3: without a gate the breaking change is live at version 1 and 2 model columns break; the ODCS gate flags 3 violations before commit
+
+==============================================================================
+E4  LINEAGE & USAGE - reads leave no trace at the storage boundary
+==============================================================================
+log digest before: ('aea8253b6a63909a', 2)  after 300 reads: ('aea8253b6a63909a', 2)
+commitInfo fields (writers only): ['clientVersion', 'engineInfo', 'operation', 'operationMetrics', 'operationParameters', 'timestamp']
+RESULT E4: 300 consumer reads changed the Delta log: False
+
+==============================================================================
+E5  DELTA FEATURE DRIFT - one table property silently raises the protocol
+==============================================================================
+before: reader v1 writer v2 features=None
+after : reader v3 writer v7 features=['deletionVectors', 'variantType']
+RESULT E5: protocol upgraded with no review step; every consumer engine must now support the new reader features
+
+==============================================================================
+E6  RIGHT CALCULATION, RIGHT LAYER - Panel 3/4 rule tested
+==============================================================================
+Grand total from precomputed gold : margin=0.3731 customers=12
+Grand total evaluated at query time: margin=0.2678 customers=8
+RESULT E6: ratios and distinct counts precomputed upstream give wrong totals; the panel's decision rule holds
+
+==============================================================================
+E7  SEMANTIC INTEROP - what the official Ossie Power BI converter can carry (static read)
+==============================================================================
+spec-portable=True  translated-today=True  Total Sales          {'SUM': 'PORTABLE'} 
+spec-portable=True  translated-today=True  Total Cost           {'SUM': 'PORTABLE'} 
+spec-portable=True  translated-today=False Order Count          {'COUNTROWS': 'PORTABLE'} 
+spec-portable=False translated-today=False Distinct Customers   {'DISTINCTCOUNT': 'SEMANTIC-MISMATCH'} 
+spec-portable=True  translated-today=True  Margin %             {'DIVIDE': 'PORTABLE+RULE'} 
+spec-portable=False translated-today=False Sales YTD            {'TOTALYTD': 'SPEC-GAP(window-measure)'} 
+spec-portable=False translated-today=False Sales LY             {'CALCULATE': 'SPEC-GAP(filter-context)', 'SAMEPERIODLASTYEAR': 'SPEC-GAP(window-measure)'} 
+spec-portable=False translated-today=False Sales YoY %          {'DIVIDE': 'PORTABLE+RULE'} via ['Sales LY']
+spec-portable=False translated-today=False % of Total Sales     {'DIVIDE': 'PORTABLE+RULE', 'CALCULATE': 'SPEC-GAP(filter-context)', 'ALL': 'REFUSE'} 
+spec-portable=False translated-today=False Online Sales         {'CALCULATE': 'SPEC-GAP(filter-context)'} 
+spec-portable=False translated-today=False Sales Rank           {'RANKX': 'SPEC-GAP(rank-measure)', 'ALL': 'REFUSE'} 
+catalog size 392 | T4 time-intelligence verdicts: {'SPEC-GAP(window-measure)': 39, 'PORTABLE+RULE': 2}
+RESULT E7: 3 of 11 measures translate today; 4 of 11 have a portable form in the spec at all
+
+==============================================================================
+E8  CONTRACT STANDARDS - what the published ODCS schemas contain
+==============================================================================
+v3.1.0 {'context': False, 'measures': False, 'metrics': False, 'rowFilter': False, 'masking': False}
+v3.2.0 {'context': True, 'measures': False, 'metrics': False, 'rowFilter': False, 'masking': False}
