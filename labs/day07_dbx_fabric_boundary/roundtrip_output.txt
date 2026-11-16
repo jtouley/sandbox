@@ -1,0 +1,67 @@
+
+### 1  Power BI -> Ossie (--translate-dax)
+[model] row-level security roles ('roles') has no Apache Ossie counterpart; preserved in the Power BI stash for round trip, but not represented in the Apache Ossie document
+[table 'Sales' measure 'Order Count'] DAX measure kept as-is; not translated to OSSIE_SQL_2026 (COUNTROWS has an exact OSSIE_SQL_2026 form that is not translated yet)
+[table 'Sales' measure 'Distinct Customers'] DAX measure kept as-is; not translated to OSSIE_SQL_2026 (DAX DISTINCTCOUNT counts BLANK as a distinct value; SQL COUNT(DISTINCT x) excludes NULL, so the two differ by one on a nullable column)
+[table 'Sales' measure 'Sales YTD'] DAX measure kept as-is; not translated to OSSIE_SQL_2026 (TOTALYTD needs window measures (time intelligence), which the Apache Ossie specification does not define yet)
+[table 'Sales' measure 'Sales LY'] DAX measure kept as-is; not translated to OSSIE_SQL_2026 (CALCULATE needs filter-context semantics, which the Apache Ossie specification does not define yet)
+[table 'Sales' measure 'Sales YoY %'] DAX measure kept as-is; not translated to OSSIE_SQL_2026 (referenced measure [Sales LY] is not translated: CALCULATE needs filter-context semantics, which the Apache Ossie specification does not define yet)
+[table 'Sales' measure '% of Total Sales'] DAX measure kept as-is; not translated to OSSIE_SQL_2026 (CALCULATE needs filter-context semantics, which the Apache Ossie specification does not define yet)
+[table 'Sales' measure 'Online Sales'] DAX measure kept as-is; not translated to OSSIE_SQL_2026 (CALCULATE needs filter-context semantics, which the Apache Ossie specification does not define yet)
+[table 'Sales' measure 'Sales Rank'] DAX measure kept as-is; not translated to OSSIE_SQL_2026 (RANKX needs ranking over measures, which the Apache Ossie specification does not define yet)
+9 construct(s) could not be converted faithfully; see the messages above.
+
+### 2  Ossie -> Power BI, same converter (stash intact)
+
+### 3  Ossie -> Databricks Metric View, as produced
+Conversion failed: Dataset 'Sales': source 'gold.fact_sales' must be a 3-part catalog.schema.table identifier or a SELECT/WITH subquery
+
+### 3b bridge: 2-part Fabric names -> 3-part UC names; de-duplicate dimension names
+Conversion notices (24):
+  [field 'SalesKey'] datatype has no Metric View counterpart; dropped
+  [field 'OrderDate'] dimension.is_time has no Metric View counterpart; dropped
+  [field 'OrderDate'] datatype has no Metric View counterpart; dropped
+  [field 'CustomerKey'] datatype has no Metric View counterpart; dropped
+  [field 'ProductKey'] datatype has no Metric View counterpart; dropped
+  [field 'Channel'] datatype has no Metric View counterpart; dropped
+  [field 'Region'] datatype has no Metric View counterpart; dropped
+  [field 'Amount'] datatype has no Metric View counterpart; dropped
+  [field 'Cost'] datatype has no Metric View counterpart; dropped
+  [field 'ProductProductKey'] datatype has no Metric View counterpart; dropped
+  [field 'ProductCategory'] datatype has no Metric View counterpart; dropped
+  [field 'CalendarDate'] dimension.is_time has no Metric View counterpart; dropped
+  [field 'CalendarDate'] datatype has no Metric View counterpart; dropped
+  [metric 'Order Count'] no usable expression.sql or DATABRICKS/ANSI_SQL/OSSIE_SQL_2026 entry; dropping metric
+  [metric 'Distinct Customers'] no usable expression.sql or DATABRICKS/ANSI_SQL/OSSIE_SQL_2026 entry; dropping metric
+  [metric 'Sales YTD'] no usable expression.sql or DATABRICKS/ANSI_SQL/OSSIE_SQL_2026 entry; dropping metric
+  [metric 'Sales LY'] no usable expression.sql or DATABRICKS/ANSI_SQL/OSSIE_SQL_2026 entry; dropping metric
+  [metric 'Sales YoY %'] no usable expression.sql or DATABRICKS/ANSI_SQL/OSSIE_SQL_2026 entry; dropping metric
+  [metric '% of Total Sales'] no usable expression.sql or DATABRICKS/ANSI_SQL/OSSIE_SQL_2026 entry; dropping metric
+  [metric 'Online Sales'] no usable expression.sql or DATABRICKS/ANSI_SQL/OSSIE_SQL_2026 entry; dropping metric
+  [metric 'Sales Rank'] no usable expression.sql or DATABRICKS/ANSI_SQL/OSSIE_SQL_2026 entry; dropping metric
+  [dataset 'Sales'] primary_key/unique_keys not stored as columns; used to set rely.at_most_one_match on a matching many_to_one join where applicable
+  [dataset 'Product'] primary_key/unique_keys not stored as columns; used to set rely.at_most_one_match on a matching many_to_one join where applicable
+  [dataset 'Calendar'] primary_key/unique_keys not stored as columns; used to set rely.at_most_one_match on a matching many_to_one join where applicable
+
+### 4  Metric View -> Ossie (Databricks converter)
+
+### 5  Ossie -> Power BI, as produced
+[metric 'Total Sales'] no home table recorded; the measure is placed on 'fact_sales'
+[metric 'Total Cost'] no home table recorded; the measure is placed on 'fact_sales'
+[metric 'Margin %'] a 'OSSIE_SQL_2026' expression could not be translated to DAX (only supported aggregate expressions can be used in a metric), and Power BI evaluates a measure or calculated column only as DAX; the measure uses BLANK() and preserves the original dialect and expression as annotations. Supply a 'DAX' expression to convert it.
+[metric 'Margin %'] no home table recorded; the measure is placed on 'fact_sales'
+Error: Legacy 'custom_extensions' are not supported; use 'nonportable_extensions' with object-valued data
+
+### 5b bridge: drop legacy custom_extensions (Ossie 0.2 -> 0.3)
+[metric 'Margin %'] a 'OSSIE_SQL_2026' expression could not be translated to DAX (only supported aggregate expressions can be used in a metric), and Power BI evaluates a measure or calculated column only as DAX; the measure uses BLANK() and preserves the original dialect and expression as annotations. Supply a 'DAX' expression to convert it.
+[relationship 'fact_sales_to_Product'] column 'Product'[ProductKey] is not in the model; relationship skipped
+[relationship 'fact_sales_to_Calendar'] column 'Calendar'[Date] is not in the model; relationship skipped
+[DatabaseQuery] no workspaceId/itemId given; the Direct Lake source uses placeholder ids
+7 construct(s) could not be converted faithfully; see the messages above.
+
+### Summary
+PBI -> Ossie -> PBI           : 11/11 measures identical, roles kept: True
+PBI -> Ossie -> MV -> Ossie -> PBI: 3/11 measures come back, 2 non-BLANK, roles kept: False, relationships: 0/2
+   Total Sales  SUM('fact_sales'[Amount])
+   Total Cost   SUM('fact_sales'[Cost])
+   Margin %     BLANK()
