@@ -1,0 +1,42 @@
+{
+ "plain/delta-rs": {
+  "ok": true,
+  "detail": ""
+ },
+ "plain/duckdb": {
+  "ok": true,
+  "detail": ""
+ },
+ "deletion_vectors/delta-rs": {
+  "ok": false,
+  "detail": "ERROR The table has set these reader features: {'deletionVectors'} but these are not yet supported by the deltalake reader."
+ },
+ "deletion_vectors/duckdb": {
+  "ok": true,
+  "detail": ""
+ },
+ "colmap_name/delta-rs": {
+  "ok": false,
+  "detail": "no error, but 3000 of 3000 values NULL; rows=1000, sum=0 (spark: rows=1000, sum=5005000, 0 NULL)"
+ },
+ "colmap_name/duckdb": {
+  "ok": true,
+  "detail": ""
+ },
+ "colmap_id/delta-rs": {
+  "ok": false,
+  "detail": "no error, but 4000 of 4000 values NULL; rows=1000, sum=0 (spark: rows=1000, sum=5005000, 0 NULL)"
+ },
+ "colmap_id/duckdb": {
+  "ok": true,
+  "detail": ""
+ },
+ "liquid/delta-rs": {
+  "ok": true,
+  "detail": ""
+ },
+ "liquid/duckdb": {
+  "ok": true,
+  "detail": ""
+ }
+}

@@ -1,0 +1,116 @@
+{
+ "spark": "4.0.1",
+ "S1_rule": [
+  [
+   1,
+   null,
+   3.5,
+   1.03225806,
+   1
+  ],
+  [
+   2,
+   "Bo J Kim",
+   2.25,
+   1.03225806,
+   0
+  ]
+ ],
+ "S1_roundtrip_plus": "ERROR: [DATATYPE_MISMATCH.BINARY_OP_WRONG_TYPE] Cannot resolve \"(first_name +  )\" due to data type mismatch: the binary operator requires the input type (\"NUMERIC\" or ",
+ "S1_roundtrip_plus_nonansi": [
+  [
+   null
+  ],
+  [
+   null
+  ]
+ ],
+ "plain": {
+  "columns": [
+   "sales_key",
+   "product_key",
+   "region",
+   "amount"
+  ],
+  "rows": 900,
+  "sum_last_col": 4954500.0,
+  "minReader": 1,
+  "minWriter": 2,
+  "features": [
+   "appendOnly",
+   "invariants"
+  ]
+ },
+ "deletion_vectors": {
+  "columns": [
+   "sales_key",
+   "product_key",
+   "region",
+   "amount"
+  ],
+  "rows": 900,
+  "sum_last_col": 4954500.0,
+  "minReader": 3,
+  "minWriter": 7,
+  "features": [
+   "appendOnly",
+   "deletionVectors",
+   "invariants"
+  ]
+ },
+ "colmap_name": {
+  "columns": [
+   "sales_key",
+   "product_key",
+   "net_amount"
+  ],
+  "rows": 1000,
+  "sum_last_col": 5005000.0,
+  "minReader": 2,
+  "minWriter": 7,
+  "features": [
+   "appendOnly",
+   "columnMapping",
+   "invariants"
+  ]
+ },
+ "colmap_id": {
+  "columns": [
+   "sales_key",
+   "product_key",
+   "region",
+   "net_amount"
+  ],
+  "rows": 1000,
+  "sum_last_col": 5005000.0,
+  "minReader": 2,
+  "minWriter": 7,
+  "features": [
+   "appendOnly",
+   "columnMapping",
+   "invariants"
+  ]
+ },
+ "liquid": {
+  "columns": [
+   "sales_key",
+   "product_key",
+   "region",
+   "amount"
+  ],
+  "rows": 1000,
+  "sum_last_col": 5005000.0,
+  "minReader": 1,
+  "minWriter": 7,
+  "features": [
+   "appendOnly",
+   "clustering",
+   "domainMetadata",
+   "invariants"
+  ]
+ },
+ "S3": {
+  "governed_rows": 450,
+  "path_rows": 900
+ }
+}

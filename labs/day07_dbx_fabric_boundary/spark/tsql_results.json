@@ -1,0 +1,23 @@
+{
+ "spark": [
+  [
+   1,
+   null,
+   3.5,
+   1.03225806,
+   1
+  ],
+  [
+   2,
+   "Bo J Kim",
+   2.25,
+   1.03225806,
+   0
+  ]
+ ],
+ "sqlglot_tsql": "SELECT customer_key, first_name + ' ' + middle_name + ' ' + last_name AS full_name, CAST(units AS FLOAT) / packs AS units_per_pack, MONTHS_BETWEEN(CAST('2025-03-01' AS DATE), CAST('2025-01-31' AS DATE)) AS tenure_months, CASE WHEN tier = 'gold' THEN 1 ELSE 0 END AS is_gold FROM customer ORDER BY 1",
+ "hand_port/customer_cs": "1|Ann  Lee|3|2|1\n2|Bo J Kim|2|2|0",
+ "hand_port/customer_ci": "1|Ann  Lee|3|2|1\n2|Bo J Kim|2|2|1",
+ "sqlglot_on_sqlserver": "Msg 195, Level 15, State 10, Server vm, Line 1\n'MONTHS_BETWEEN' is not a recognized built-in function name.",
+ "sqlglot_without_months_between": "1|NULL|3.5|NULL|1\n2|Bo J Kim|2.25|NULL|0"
+}
