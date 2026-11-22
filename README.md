@@ -42,6 +42,7 @@ Each folder represents a level of increasing rigor: exploratory notebooks for id
 | **Pulumi** | Strengthen infrastructure-as-code fundamentals and environment reproducibility. |
 | **Python / DuckDB** | Prototype efficient local pipelines for testing ideas quickly. |
 | **dbt / MotherDuck** | Model data with dbt on DuckDB, run it in MotherDuck, and build Dives on top ([`labs/day06_halloween_candy_dbt`](labs/day06_halloween_candy_dbt/README.md)). |
+| **Evidence pipelines** | Capture a creator's own Instagram comments as hashed raw JSONL, model them bronze → silver → gold with DuckDB + dbt, OpenSSF-ready CI ([`labs/day07_comment_guard`](labs/day07_comment_guard/README.md)). |
 
 ---
 

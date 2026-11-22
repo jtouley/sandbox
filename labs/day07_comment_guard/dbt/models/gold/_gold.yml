@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: gld_comment_evidence
+    description: "One row per comment with post context and a pointer to its verbatim landed copy. Input to the classifier/review stage."
+    columns:
+      - name: comment_id
+        data_tests: [unique, not_null]
+      - name: first_evidence_body_sha256
+        data_tests: [not_null]
+  - name: gld_capture_coverage
+    description: "Comments captured vs. comments_count reported by Instagram, per post."
+    columns:
+      - name: media_id
+        data_tests: [unique, not_null]
+  - name: gld_commenter_activity
+    description: "Private per-commenter rollup for the creator's own review. Never publish."
+    columns:
+      - name: commenter_key
+        data_tests: [unique, not_null]

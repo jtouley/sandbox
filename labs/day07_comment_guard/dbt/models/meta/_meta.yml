@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: meta_capture_runs
+    description: "Capture-run manifests: who/when/what version, request counts, per-stream pages and items."
+    columns:
+      - name: run_id
+        data_tests: [unique, not_null]
+  - name: meta_landing_files
+    description: "Chain of custody for landed files: hash at capture vs. hash on disk now."
+    columns:
+      - name: file_intact
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [true]
+                quote: false

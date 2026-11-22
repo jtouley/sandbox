@@ -1,0 +1,34 @@
+name: comment_guard
+version: "0.1.0"
+config-version: 2
+profile: comment_guard
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+clean-targets: ["target", "dbt_packages"]
+
+vars:
+  # Everything lives under COMMENT_GUARD_DATA (default: <lab>/data). `cg build` sets it.
+  data_dir: "{{ env_var('COMMENT_GUARD_DATA', '../data') }}"
+
+on-run-end:
+  - "{{ log_run_results(results) }}"
+
+models:
+  comment_guard:
+    # Every layer is written as Parquet under data/lake/<layer>/ and exposed as a view
+    # in data/warehouse.duckdb, so you can query either the files or the database.
+    +materialized: external
+    bronze:
+      +schema: bronze
+      +tags: [bronze]
+    silver:
+      +schema: silver
+      +tags: [silver]
+    gold:
+      +schema: gold
+      +tags: [gold]
+    meta:
+      +schema: meta
+      +tags: [meta]

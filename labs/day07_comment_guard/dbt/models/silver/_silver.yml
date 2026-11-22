@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: slv_comment_observations
+    description: "Every sighting of every comment, one row per comment per capture run, with a pointer to the landed line it came from."
+    columns:
+      - name: comment_id
+        data_tests: [not_null]
+      - name: media_id
+        data_tests: [not_null]
+      - name: evidence_file
+        data_tests: [not_null]
+
+  - name: slv_comments
+    description: "Latest state of each comment (top-level and replies) plus first/last seen and its first evidence pointer."
+    columns:
+      - name: comment_id
+        data_tests: [unique, not_null]
+      - name: media_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('slv_media')
+                field: media_id
+              config:
+                severity: warn   # comments on posts outside --max-posts are possible later
+
+  - name: slv_media
+    description: "Latest state of each post."
+    columns:
+      - name: media_id
+        data_tests: [unique, not_null]

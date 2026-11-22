@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: brz_api_responses
+    description: >
+      Every Graph API response landed by `cg capture`, one row per JSONL line, with the
+      verbatim (token-redacted) body and its SHA-256. Append-only source of record.
+    columns:
+      - name: run_id
+        data_tests: [not_null]
+      - name: stream
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [me, media, comments, replies]
+      - name: body_hash_ok
+        description: "sha256(body) matches the hash written at capture time."
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [true]
+                quote: false
+      - name: landing_file
+        data_tests: [not_null]
