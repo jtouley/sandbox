@@ -1,6 +1,6 @@
 {{ config(location=lake('meta', 'landing_files')) }}
 
--- Meta: every landed file, with the hash recorded at capture time and the hash of the
+-- Meta: every landed file (raw responses and per-comment lines), with the hash recorded at capture time and the hash of the
 -- file as it is on disk now. `file_intact` = false means the file changed after capture.
 with recorded as (
     select r.run_id, unnest(r.files) as f
@@ -15,7 +15,7 @@ with recorded as (
 
 on_disk as (
     select filename as abs_path, size as bytes_on_disk, sha256(content) as sha256_on_disk
-    from read_blob('{{ landing_glob() }}')
+    from read_blob(['{{ landing_glob() }}', '{{ comment_lines_glob() }}'])
 )
 
 select

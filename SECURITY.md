@@ -25,8 +25,9 @@ acknowledgement within 7 days and a status update within 30.
 Most of this repository is learning material. The code that handles credentials and
 personal data is held to a higher bar:
 
-- `labs/day07_comment_guard/`: stores an Instagram access token and comment data.
-  Particularly in scope: token leakage (into files, logs, URLs, or the data lake), bypasses
+- `labs/day07_comment_guard/`: runs an OAuth login, stores a Meta app secret and an
+  Instagram access token, and stores comment data.
+  Particularly in scope: OAuth flaws (state/CSRF, redirect handling), secret or token leakage (into files, logs, URLs, or the data lake), bypasses
   of the landing-file integrity checks, and dependency vulnerabilities.
 
 ## Supported versions

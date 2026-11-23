@@ -23,3 +23,21 @@ models:
                 quote: false
       - name: landing_file
         data_tests: [not_null]
+
+  - name: brz_comment_lines
+    description: >
+      Readable per-post comment files from `cg capture`: one row per comment or reply, each
+      pointing back (source_file / source_seq / source_body_sha256) to the raw response it
+      was taken from.
+    columns:
+      - name: comment_id
+        data_tests: [not_null]
+      - name: post_id
+        data_tests: [not_null]
+      - name: source_body_sha256
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('brz_api_responses')
+                field: body_sha256

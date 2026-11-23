@@ -57,6 +57,13 @@ def test_dbt_build_produces_medallion(two_runs):
     assert ev[0] is False and ev[1] is None and ev[2] is True
     assert ev[3].endswith("comments.jsonl")
 
+    # The readable per-comment files land in bronze too (one row per comment per run).
+    assert q("select count(*) from '{lake}/bronze/comment_lines.parquet'")[0][0] == 10  # 6 + 4
+    assert q(
+        "select post_id, comment_id from '{lake}/bronze/comment_lines.parquet' "
+        "where line_number = 1 order by lines_file limit 1"
+    )[0] == ("m1", "c100")
+
     replies = q(
         "select comment_id, parent_comment_id from '{lake}/silver/comments.parquet' "
         "where is_reply order by 1"

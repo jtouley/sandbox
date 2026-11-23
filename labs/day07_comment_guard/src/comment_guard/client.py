@@ -15,6 +15,8 @@ import httpx
 from .config import GRAPH_HOST
 from .redact import strip_secret_params
 
+# Graph error codes meaning the token wasn't seen or accepted (header auth not supported).
+AUTH_CODES = frozenset({190, 2500})
 # Graph error codes that mean "slow down": app/user/page-level throttling.
 RATE_LIMIT_CODES = frozenset({4, 17, 32, 613, 80002})
 RETRY_STATUS = frozenset({429, 500, 502, 503, 504})
@@ -57,10 +59,11 @@ class GraphClient:
     ):
         self.token = token
         self.base = f"{GRAPH_HOST}/{api_version}/"
+        # Prefer the Authorization header (keeps the token out of URLs). Meta documents only
+        # the access_token query param, so fall back to it once if the header is rejected.
+        self.auth_mode = "header"
         self._http = httpx.Client(
-            headers={"Authorization": f"Bearer {token}", "User-Agent": "comment-guard/0.1"},
-            timeout=30.0,
-            transport=transport,
+            headers={"User-Agent": "comment-guard/0.1"}, timeout=30.0, transport=transport
         )
         self.max_retries = max_retries
         self.min_interval = min_interval
@@ -86,13 +89,18 @@ class GraphClient:
         for attempt in range(self.max_retries + 1):
             self._throttle()
             started = time.monotonic()
-            resp = self._http.get(url, params=params)
+            resp = self._http.get(
+                url, params=self._auth_params(params), headers=self._auth_headers()
+            )
             self.requests += 1
             elapsed_ms = (time.monotonic() - started) * 1000
             if self.on_response:
                 self.on_response(resp, elapsed_ms)
             if resp.is_success:
                 return resp
+            if self.auth_mode == "header" and GraphError(resp).code in AUTH_CODES:
+                self.auth_mode = "query"
+                continue
             if attempt < self.max_retries and self._retryable(resp):
                 self._sleep(min(2**attempt * 2.0, 300.0))
                 continue
@@ -110,6 +118,14 @@ class GraphClient:
             resp = self.get(nxt)
 
     # -- helpers ------------------------------------------------------------
+    def _auth_headers(self) -> dict[str, str]:
+        return {"Authorization": f"Bearer {self.token}"} if self.auth_mode == "header" else {}
+
+    def _auth_params(self, params: dict[str, Any] | None) -> dict[str, Any] | None:
+        if self.auth_mode == "header":
+            return params
+        return {**(params or {}), "access_token": self.token}
+
     def _throttle(self) -> None:
         wait = self._last + self.min_interval - time.monotonic()
         if wait > 0:

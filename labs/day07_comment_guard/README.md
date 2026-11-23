@@ -4,7 +4,9 @@
 
 - [comment-guard](#comment-guard)
   - [Quick start](#quick-start)
-    - [Login (one paste)](#login-one-paste)
+  - [Logging in](#logging-in)
+    - [One-time app setup (whoever runs comment-guard, once)](#one-time-app-setup-whoever-runs-comment-guard-once)
+  - [What you get: one line per comment, by post](#what-you-get-one-line-per-comment-by-post)
   - [How it works](#how-it-works)
     - [Initial capture: land first, parse later](#initial-capture-land-first-parse-later)
     - [Evidence properties](#evidence-properties)
@@ -32,40 +34,100 @@ classification and human review come next, on top of `gold/comment_evidence.parq
 ```bash
 cd labs/day07_comment_guard
 make setup            # uv sync --locked (Python 3.12)
-make login            # paste a token once; validated against /me, stored in your keyring
-make capture          # 25 most recent posts -> data/landing/**/*.jsonl
-make peek             # SQL over the raw files right away
-make build            # dbt: Parquet lake + tests (hash checks, uniqueness, chain of custody)
+make login            # browser opens -> log in to Instagram -> approve -> done
+make capture          # 25 most recent posts -> data/comments/.../post_<id>.jsonl
+make build            # dbt: Parquet lake + tests (hash checks, line/raw agreement, custody)
 ```
 
-### Login (one paste)
+## Logging in
 
-Getting the token is the only Meta-side setup:
+`cg login` opens Instagram's own login page in your browser. You sign in to Instagram
+(password, 2FA, whatever your account uses, all on instagram.com), approve **read profile
++ read comments**, and the tab says *Logged in*. That's it. There's no key or token to
+copy, and comment-guard never sees your password.
 
-1. [developers.facebook.com](https://developers.facebook.com/apps) → **Create app** →
+Behind that:
+
+1. A random 256-bit `state` is generated and a one-shot server listens on
+   `127.0.0.1:8765` only.
+2. Instagram redirects back with a one-time code. The state must match (CSRF protection),
+   and the server answers that one request and shuts down.
+3. The code is exchanged for a 1-hour token, then for a **60-day token**, server-to-server
+   over HTTPS.
+4. The token is checked against `/me` and stored in your OS keyring (or a 0600 file if
+   there's no keyring).
+
+It refreshes itself before it expires, so you log in again only if you stop using it for
+two months. `cg login --switch-account` forces Instagram to ask which account to use.
+
+### One-time app setup (whoever runs comment-guard, once)
+
+Meta only lets an app it knows about request a login, and it requires the app's secret to
+stay off end-user code. So the person running comment-guard registers a free Meta app once.
+`cg login` walks you through it the first time (or run `cg app`):
+
+1. [developers.facebook.com/apps](https://developers.facebook.com/apps) → **Create app** →
    use case *Manage messaging & content on Instagram*.
-2. **Instagram → API setup with Instagram login → Generate access tokens → Add account**,
-   log in as the creator, approve.
-3. Copy the token, run `cg login`, paste (input is hidden).
+2. **Instagram → API setup with Instagram login → Set up Instagram business login.** In
+   *Business login settings*, add the OAuth redirect URI `http://localhost:8765/callback/`.
+3. **App roles → Roles → Instagram testers:** add each account that will log in (e.g. yours,
+   Phil's), and accept the invite in Instagram (*Settings → Website permissions → Tester
+   invites*). Testers are enough for accounts you own or manage; serving other people's
+   accounts at scale needs Meta App Review for Advanced Access.
+4. Paste the **Instagram** app ID and app secret into `cg app` (secret input is hidden).
 
-The account must be a **Creator or Business** account (Phil Gaimon's "Athlete" profile is a
-Creator account). `cg login` checks the token against `/me` before storing it. It goes to
-the OS keyring, or to `~/.config/comment-guard/token.json` (mode 0600) where there is no
-keyring. For CI, set `IG_ACCESS_TOKEN` instead. Long-lived tokens last 60 days. `cg` refreshes
-the token automatically once it is a day old and has under 10 days left; `cg refresh` forces it.
+If Meta's dashboard won't accept an `http://localhost` redirect, register an `https://` one
+instead (`cg app --redirect-uri https://localhost:8765/callback/`). Login still works: after
+approving, you paste the address you landed on (the page itself won't load) and
+comment-guard takes the code from it.
 
-Permissions needed: `instagram_business_basic` and `instagram_business_manage_comments`.
-Using it on **someone else's** account (a service for many creators) needs Meta App Review
-for Advanced Access. One creator logging in to their own app needs no review.
+The account logging in must be a **Creator or Business** account. Phil Gaimon's "Athlete"
+profile is a Creator account.
+
+Headless or CI: `IG_APP_ID` / `IG_APP_SECRET` env vars replace the stored app, and
+`IG_ACCESS_TOKEN` (or `cg login --token-stdin`) replaces the browser login.
+
+## What you get: one line per comment, by post
+
+```
+data/comments/ingest_date=2026-11-23/run_id=20261123T101500Z-a1b2c3/
+    post_17912345678901234.jsonl     # one file per post that has comments
+    post_17998765432109876.jsonl
+```
+
+Each file is threaded: a top-level comment, then its replies oldest-first, then the next
+comment. Every comment and every reply is its own line:
+
+```json
+{"run_id": "20261123T101500Z-a1b2c3", "captured_at": "2026-11-23T10:15:02.418Z",
+ "post_id": "17912345678901234", "post_shortcode": "DA1b2C3", "post_permalink": "https://www.instagram.com/p/DA1b2C3/",
+ "post_posted_at": "2026-11-20T15:00:00+0000", "post_caption": "Ride day",
+ "comment_id": "18034...", "parent_comment_id": null, "is_reply": false,
+ "username": "angry_driver", "user_id": "17841...", "text": "get off the road or I'll run you over",
+ "commented_at": "2026-11-20T16:00:00+0000", "like_count": 0, "hidden": true,
+ "source": {"file": "landing/ingest_date=2026-11-23/run_id=.../comments.jsonl", "seq": 14,
+            "body_sha256": "9f2c..."}}
+```
+
+`source` points to the verbatim API response the line came from, so any line can be traced
+back to raw evidence. `dbt build` fails if the lines and the raw responses ever disagree.
+Quick looks, no build needed:
+
+```bash
+duckdb -c "from read_ndjson('data/comments/**/*.jsonl') select post_permalink, username, text"
+make peek   # raw API responses
+```
 
 ## How it works
 
 ```
-Graph API ──cg capture──▶ landing/  (JSONL, one line per HTTP response, never rewritten)
+Graph API ──cg capture──▶ landing/   (JSONL, one line per HTTP response, never rewritten)
+                           comments/  (JSONL, one file per post, one line per comment/reply)
                            meta/runs/<run>.json  (manifest: counts, file SHA-256, versions)
                 │
                 ▼  read_ndjson(..., filename=true)   ← the "read-memories" pattern
            bronze/api_responses.parquet   every response + body hash re-verified
+           bronze/comment_lines.parquet   the per-comment lines, checked against the raw
                 │
                 ▼  unnest JSON
            silver/comment_observations    every sighting of every comment, per run
@@ -131,8 +193,9 @@ screenshots of the live comment and profile, or a police preservation request to
 - The API doesn't return comments from **Restricted** users, on age-gated posts, or
   live-video comments after the broadcast. `gold/capture_coverage` shows the gap per post.
 - Not yet tested on a live account: whether comments filtered by **Hidden Words**
-  come back, and whether `Authorization: Bearer` is accepted on every edge (the client sends
-  the token only in the header). Check both the first time you run it against Phil's account.
+  come back, and whether Meta accepts `http://localhost` as a redirect URI (there's a paste
+  fallback if not). The client sends the token in the `Authorization` header and switches
+  to Meta's documented `access_token` parameter automatically if the header is rejected.
 - Deleted comments can't be recovered, so capture before moderating, and **hide rather than delete**.
 - No incremental mode yet: each run re-reads all comments for the selected posts.
   `--max-posts` keeps routine runs small. Webhooks for new comments are the planned next step.
@@ -159,6 +222,7 @@ review + CI), private vulnerability reporting, and (for Signed-Releases) signed 
 ## Development
 
 ```bash
-make test   # 13 tests: redaction, token store, capture (mocked Graph API), full dbt build
+make test   # 25 tests: browser login (real loopback server, mocked Meta), CSRF/state,
+            # redaction, secret store, capture + per-comment lines, full dbt build, tampering
 make lint
 ```

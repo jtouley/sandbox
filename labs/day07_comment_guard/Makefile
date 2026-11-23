@@ -1,20 +1,26 @@
 # comment-guard: capture -> bronze -> silver -> gold
 CG := uv run cg
 
-.PHONY: all setup login whoami capture capture-all build peek test lint clean
+.PHONY: all setup app login logout whoami capture capture-all build peek test lint clean
 
 all: test ## Default: run the test suite
 
 setup: ## Create the venv (Python 3.12) from uv.lock
 	uv sync --locked
 
-login: ## Store an Instagram access token (keyring, or a 0600 file)
+app: ## One-time: store your Meta app's Instagram app ID + secret
+	$(CG) app
+
+login: ## Log in with Instagram in your browser
 	$(CG) login
+
+logout: ## Forget the Instagram token
+	$(CG) logout
 
 whoami: ## Show the logged-in account and token expiry
 	$(CG) whoami
 
-capture: ## Land raw API responses for the 25 most recent posts
+capture: ## Pull comments for the 25 most recent posts (one line each, by post)
 	$(CG) capture
 
 capture-all: ## Land every post's comments (slow on big accounts)

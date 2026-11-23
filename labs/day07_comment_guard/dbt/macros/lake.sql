@@ -7,3 +7,8 @@
 {% macro landing_glob() -%}
     {{ var('data_dir') }}/landing/**/*.jsonl
 {%- endmacro %}
+
+{#- Readable per-comment lines: one file per post, one line per comment/reply. -#}
+{% macro comment_lines_glob() -%}
+    {{ var('data_dir') }}/comments/**/*.jsonl
+{%- endmacro %}
